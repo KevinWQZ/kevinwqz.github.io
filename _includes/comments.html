@@ -1,0 +1,48 @@
+<section class="post-comments">
+   {% if site.comment.disqus %}
+    <div id="disqus_thread"></div>
+
+    <script>
+    
+    var disqus_config = function () {
+        this.page.url = "{{ page.url | prepend: site.baseurl | prepend: site.url }}";
+        this.page.identifier = "{{ page.url }}";
+    };
+
+    var disqus_shortname = '{{ site.comment.disqus }}';
+    
+    (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+    <noscript>要查看<a href="http://disqus.com/?ref_noscript"> Disqus </a>评论，请启用 JavaScript</noscript>
+    
+  {% elsif site.comment.gitalk %}
+    <div id="gitalk-container"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'a7e3bcc8c313f6fcf2cf',
+        clientSecret: '1d7f990ff0250384dea6b037ce7d6e455d84d472',
+        repo: 'xietao3.github.io',
+        owner: '{{ site.comment.gitalk }}',
+        admin: ['{{ site.comment.gitalk }}'],
+        id: 'BlogComment',
+        distractionFreeMode: true
+      });
+      gitalk.render('gitalk-container');
+
+    </script>
+
+  {% endif %}
+
+
+
+  
+  
+  
+</section>
