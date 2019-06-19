@@ -1,8 +1,8 @@
 # Basic
 title: 王权振
-subtitle: 学无止境，勤于总结
+subtitle: 学无止境，勇攀高峰
 # welcome_message: <a href="https://github.com/onevcat/vno-jekyll" target="_blank">Download the theme</a>
-description: 你好，我是王权振！欢迎来到我的个人主页.</br>90后码农，Aim to 代码创造者
+description: 你好，我是王权振！欢迎来到我的个人主页.</br>90后码农，一直在进步
 creator: <a href="http://wangquanzhen.com</a>
 
 url: "http://wangquanzhen.com"
@@ -30,7 +30,7 @@ blog_button:
     title: 博客
     description: 进入博客
 nav:
-    - {title: 关于, description: 了解更多关于我, url: '/about/index.html'}
+    - {title: 关于, description: 了解关于我, url: '/about/index.html'}
 
 # Navigation buttons in the front page.
 # nav:
