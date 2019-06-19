@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 
-  <head>
+  
+<head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+  <meta name="baidu-site-verification" content="vuqzu4486i" />
+  <meta name="baidu-site-verification" content="yR54QJzaFG" />
   <title>Jekyll + Github Pages构建个人技术博客</title>
   <meta name="description" content="  写技术博客可以积累并且巩固所学的知识，温故知新，还能传播知识，帮助他人解决问题。">
   <meta name="author" content="xie tao">
@@ -25,9 +27,21 @@
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
   <link rel="canonical" href="http://localhost:4000/2016/10/setup-blog/">
-  <link rel="alternate" type="application/rss+xml" title="xietao3" href="http://localhost:4000/feed.xml">
-  
+  <link rel="alternate" type="application/rss+xml" title="wangquanzhen" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
   <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?df0994aacf7a4c9779a5632908de3196";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
   
 </head>
 
@@ -45,13 +59,13 @@
     <div class="panel-main__inner panel-inverted">
     <div class="panel-main__content">
 
-        <a href="/#blog" title="前往 xietao3 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="xietao3 logo" class="panel-cover__logo logo" /></a>
-        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="前往 xietao3 的主页" class="blog-button">xietao3</a></h1>
+        <a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="wangquanzhen logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button">wangquanzhen</a></h1>
         
         <span class="panel-cover__subtitle panel-subtitle">探索之旅，学习之路</span>
         
         <hr class="panel-cover__divider" />
-        <p class="panel-cover__description">你好，我是谢涛！欢迎来到我的个人主页.</br>90后代码搬运工，目前就职于上海天天果园，任职iOS高级开发工程师。</p>
+        <p class="panel-cover__description">你好，我是王权振！欢迎来到我的个人主页.</br>90后代码搬运工，</p>
         <hr class="panel-cover__divider panel-cover__divider--secondary" />
         
         
@@ -147,24 +161,24 @@
   <p>写技术博客可以积累并且巩固所学的知识，温故知新，还能传播知识，帮助他人解决问题。</p>
 </blockquote>
 
-<p>##前言</p>
+<h2 id="前言">前言</h2>
 
 <p>搭建专属于自己的博客，是每一个码农都会想要去实现的，以前自己也曾想要搭建，但是总有无从下手的感觉，随着知识阅历的提升，知道了一些搭建的方式，时机成熟，买下了梦寐已久的域名，便开始动手搭建。</p>
 
-<p>##参考</p>
+<h2 id="参考">参考</h2>
 <ul>
   <li><a href="http://jekyllcn.com/docs/quickstart/">这里是官方介绍</a></li>
   <li><a href="http://www.jianshu.com/p/9a6bc31d329d">如何快速给自己构建一个温馨的”家”——用Jekyll搭建静态博客</a></li>
   <li><a href="http://vno.onevcat.com/2016/02/hello-world-vno/">喵神的Vno Jekyll</a></li>
 </ul>
 
-<p>##安装Jekyll</p>
+<h2 id="安装jekyll">安装Jekyll</h2>
 <pre>
 //打开命令行 使用gem安装Jekyll
 gem install jekyll
 </pre>
 
-<p>##启动Jekyll服务</p>
+<h2 id="启动jekyll服务">启动Jekyll服务</h2>
 <pre>
 //使用Jekyll创建你的博客站点
 jekyll new blogname
@@ -178,7 +192,7 @@ jekyll serve
 //启动成功会提示站点地址,一般是[127.0.0.1:4000](http://127.0.0.1:4000),打开后就可以看到自己新建的站点
 </pre>
 
-<p>##下载模板</p>
+<h2 id="下载模板">下载模板</h2>
 <pre>
 // 过程中缺什么工具灵活安装
 // 下载模板
@@ -194,14 +208,15 @@ $ bundler install
 $ bundler exec jekyll serve
 </pre>
 
-<p>##模板内容</p>
+<h2 id="模板内容">模板内容</h2>
 
-<p>######1. 需要调整的文件：</p>
+<h6 id="1-需要调整的文件">1. 需要调整的文件：</h6>
 
 <ul>
   <li><code class="highlighter-rouge">_config.yml</code>——–博客配置文件，需要根据自身的情况修改</li>
   <li><code class="highlighter-rouge">_posts</code>————-新文章扔进这里</li>
   <li><code class="highlighter-rouge">_includes</code>———-页眉页脚等模板放在这里，根据自身的情况修改</li>
+  <li><code class="highlighter-rouge">css</code>—————-各种页面配置</li>
   <li><code class="highlighter-rouge">assets</code>————-favicon、头像、首页背景图在这里面，可以直接替换</li>
   <li><code class="highlighter-rouge">CNAME</code>————–自定义域名放在这里面</li>
   <li><code class="highlighter-rouge">README.md</code>———-Github说明，需要根据自身的情况修改</li>
@@ -209,21 +224,21 @@ $ bundler exec jekyll serve
   <li><code class="highlighter-rouge">_site</code>————–自动生成的博客内容,<code class="highlighter-rouge">index.html</code>需要根据情况修改</li>
 </ul>
 
-<p>######2. 以下文件不建议修改：</p>
+<h6 id="2-以下文件不建议修改">2. 以下文件不建议修改：</h6>
 
 <ul>
   <li><code class="highlighter-rouge">_layouts</code>———–文章模板</li>
   <li><code class="highlighter-rouge">index.html</code>———首页模板</li>
-  <li><code class="highlighter-rouge">其他的...不要在意这些细节（不会用😅）</code></li>
+  <li><code class="highlighter-rouge">js</code>—————–存放js文件</li>
 </ul>
 
-<p>######3. 更多jekyll模板</p>
+<h6 id="3-更多jekyll模板">3. 更多jekyll模板</h6>
 <ul>
   <li><a href="http://jekyllthemes.org/">更多jekyll模板</a>，使用方式同上。
 &lt;/br&gt;</li>
 </ul>
 
-<p>##套用模板：</p>
+<h2 id="套用模板">套用模板：</h2>
 <pre>
 直接将修改后的模板内容copy到其他文件夹,再执行下面两句命令：
 $ bundler install
@@ -231,7 +246,7 @@ $ bundler exec jekyll serve
 即可运行成功
 </pre>
 
-<p>##提交至Github Pages</p>
+<h2 id="提交至github-pages">提交至Github Pages</h2>
 <ol>
   <li>在Github上<code class="highlighter-rouge">Create a new repository</code>
     <ul>
@@ -243,7 +258,7 @@ $ bundler exec jekyll serve
   </li>
 </ol>
 
-<p>##结语</p>
+<h2 id="结语">结语</h2>
 <blockquote>
   <p>虽然写出来只有这么短短的一篇，背后其实花了不少心血；
 在搭建过程中，我也遇到过很多问题，遇到问题的时候不要轻易放弃，希望各位也是如此；
@@ -256,12 +271,20 @@ $ bundler exec jekyll serve
 <section class="read-more">
    
    
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/11/post-and-comment/" title="link to Jekyll发布文章+评论模块">Jekyll发布文章+评论模块</a></h2>
+       <p class="excerpt">  我想成为聪明的人，所以我在学习。前言在搭建好博客之后，又给自己增加的评论模块，还建了一个我自己比较喜欢关于页面，简单地介绍了下自己。参考Jekyll + Github Pages构建个人技术博客写作环境  使用Macbook，我一般是使用Mou写，实时预览功能很好用,Help -&gt; Mou Help打开语法提示  在Windows下，我直接在简书上写，也有实时预览效果，而且会实时保存，需要联网Markdown  Markdown上手还是很快的，使用简便，语法简单Markdown语...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-11-01 23:16:24 +0800" class="post-list__meta--date date">2016-11-01</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2016/11/post-and-comment/>继续阅读</a></div>
+   </div>
+   
+   
    
    
    <div class="read-more-item">
        <span class="read-more-item-dim">更早的文章</span>
        <h2 class="post-list__post-title post-title"><a href="/2016/09/study-markdown/" title="link to 学习Markdown">学习Markdown</a></h2>
-       <p class="excerpt">  这个世界太浮夸了，做技术的攀比也这么严重，还是要想想自己想要的是什么，再出发。#前言  这个是本人练手用滴，勿喷。#1、代码块NSSting *str = [[NSString alloc] init];str = @"123";NSLog(@"123")；&lt;/p&gt;+ Use the `printf()` function.+ ``There is a literal backtick (`) here.``+ Please don't use any `` tags.+ ...&hellip;</p>
+       <p class="excerpt">  这个世界太浮夸了，做技术的攀比也这么严重，还是要想想自己想要的是什么，再出发。前言  这个是本人练手用滴，勿喷。1、代码块NSSting *str = [[NSString alloc] init];str = @"123";NSLog(@"123")；  Use the printf() function.  There is a literal backtick (`) here.  Please don’t use any &lt;blink&gt; tags.  — is th...&hellip;</p>
        <div class="post-list__meta"><time datetime="2016-09-30 17:31:24 +0800" class="post-list__meta--date date">2016-09-30</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2016/09/study-markdown/>继续阅读</a></div>
    </div>
    
@@ -269,19 +292,22 @@ $ bundler exec jekyll serve
 
 <section class="post-comments">
    
-    <div class="ds-thread" data-thread-key="/2016/10/setup-blog/" data-title="Jekyll + Github Pages构建个人技术博客" data-url="http://localhost:4000/2016/10/setup-blog/"></div>
-    <script type="text/javascript">
-        var duoshuoQuery = {short_name:"xietao3"};
-        (function() {
-            var ds = document.createElement('script');
-            ds.type = 'text/javascript';ds.async = true;
-            ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-            ds.charset = 'UTF-8';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);
-        })();
-    </script>
+    <div id="gitalk-container"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 
-    
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'a7e3bcc8c313f6fcf2cf',
+        clientSecret: '1d7f990ff0250384dea6b037ce7d6e455d84d472',
+        repo: 'xietao3.github.io',
+        owner: 'xietao3',
+        admin: ['xietao3'],
+        id: 'BlogComment',
+        distractionFreeMode: true
+      });
+      gitalk.render('gitalk-container');
+
+    </script>
 
   
 

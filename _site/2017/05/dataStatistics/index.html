@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+
+  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="baidu-site-verification" content="vuqzu4486i" />
+  <meta name="baidu-site-verification" content="yR54QJzaFG" />
+  <title>iOS无埋点数据统计实践</title>
+  <meta name="description" content="">
+  <meta name="author" content="xie tao">
+
+<!--   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="iOS无埋点数据统计实践">
+  <meta name="twitter:description" content=""> -->
+  
+<!--   <meta property="og:type" content="article">
+  <meta property="og:title" content="iOS无埋点数据统计实践">
+  <meta property="og:description" content=""> -->
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.ico" />
+  <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/05/dataStatistics/">
+  <link rel="alternate" type="application/rss+xml" title="wangquanzhen" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?df0994aacf7a4c9779a5632908de3196";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="wangquanzhen logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button">wangquanzhen</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">探索之旅，学习之路</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">你好，我是王权振！欢迎来到我的个人主页.</br>90后代码搬运工，</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="进入博客" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="/about/index.html" target="_blank" title="了解更多关于我">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+  
+    <a href="http://weibo.com/u/2803559240" title="xietao3 的微博" target="_blank">
+    <!-- <a href="http://weibo.com/xietao3" title="xietao3 的微博" target="_blank"> -->
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/xietao3" title="xietao3 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  
+   <!-- CSDN -->
+  <li class="navigation__item">
+    <a href="http://blog.csdn.net/xietao3" title="xietao3 的 CSDN" target="_blank">
+      <img src="/assets/images/csdn.png" width="20" height="20" />
+      <!-- <i class='social fa fa-edit'></i> -->
+      <span class="label">csdn</span>
+    </a>
+  </li>
+  
+
+  <!-- RSS -->
+<!--   <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li> -->
+
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-orange"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-05-04 16:50:24 +0800" itemprop="datePublished" class="post-meta__date date">2017-05-04</time> &#8226; <span class="post-meta__tags tags"></span>
+    </div>
+    <h1 class="post-title">iOS无埋点数据统计实践</h1>
+  </header>
+
+  <section class="post">
+    <p><img src="http://upload-images.jianshu.io/upload_images/1319710-09d59f4594c635e3.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="" /></p>
+
+<blockquote>
+  <p>手动埋点太麻烦了，谁用谁知道。</p>
+</blockquote>
+
+<h1 id="背景">背景</h1>
+<p><code class="highlighter-rouge">一直以来，大数据紧紧的和埋点技术捆绑在一起，甚至大数据时代也可以说是埋点时代</code>。这话没毛病，但是埋点一直都存在着效率低下的问题，构建起来费时间，容易出错，每次修改埋点都需要开发手动修改等问题。<strong>无埋点统计技术闪亮登场，很好地解决了这个问题，解放了程序员的双手。</strong></p>
+
+<h1 id="内容概要">内容概要</h1>
+<p>本文<a href="https://github.com/xietao3/CrashCollectionDemo">Demo</a>已经实现以下内容：</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>主要功能</th>
+      <th>备注</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>crash监控</td>
+      <td>已完成</td>
+    </tr>
+    <tr>
+      <td>卡顿监控</td>
+      <td>待完善</td>
+    </tr>
+    <tr>
+      <td>页面路径监控</td>
+      <td>已完成</td>
+    </tr>
+    <tr>
+      <td>UIScrollView delegate</td>
+      <td>监听 did draging</td>
+    </tr>
+    <tr>
+      <td>UITableView delegate</td>
+      <td>监听 did selected</td>
+    </tr>
+    <tr>
+      <td>UIKit控件touch监控</td>
+      <td>监听action</td>
+    </tr>
+    <tr>
+      <td>避免数组越界造成闪退</td>
+      <td>已完成不可变数组</td>
+    </tr>
+    <tr>
+      <td>避免<code class="highlighter-rouge">unrecognized selector</code>造成闪退</td>
+      <td>已完成</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="如何实现无埋点">如何实现无埋点</h1>
+<p>利用运行时机制，将类原生方法替换成用户自定义的方法，相当于强行在原本调用栈中插入一个方法，我们在其中插入一段统计代码即可，需要注意的是不要多次替换，谨防其他代码重复替换。</p>
+
+<h3 id="1-如何替换方法method-swizzling">1. 如何替换方法:Method Swizzling</h3>
+
+<p>函数的调用涉及到3个重要的点：<code class="highlighter-rouge">Class</code>、<code class="highlighter-rouge">SEL</code>、<code class="highlighter-rouge">IMP</code>，Calss作为类型，<code class="highlighter-rouge">Method</code>由<code class="highlighter-rouge">SEL</code>和<code class="highlighter-rouge">IMP</code>组成。我们通过交换<code class="highlighter-rouge">Method</code>的<code class="highlighter-rouge">IMP</code>达到替换被调用函数的目的。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>官方描述</th>
+      <th>个人见解</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">Class</code></td>
+      <td><code class="highlighter-rouge">An opaque type that represents an Objective-C class.</code></td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">SEL</code></td>
+      <td><code class="highlighter-rouge">Method selectors are used to represent the name of a method at runtime.</code></td>
+      <td>就是一个名称。</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">IMP</code></td>
+      <td><code class="highlighter-rouge">This data type is a pointer to the start of the function that implements the method.</code></td>
+      <td>方法实现的具体地址。</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-2536b9ce4b300b7a.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/540" alt="exchange IMP" /></p>
+
+<p>我们新增一个<code class="highlighter-rouge">Hook Action</code>，通过<code class="highlighter-rouge">Swizzling</code>方式，通过交换<code class="highlighter-rouge">Hook Action</code>和<code class="highlighter-rouge">Current Action</code>的<code class="highlighter-rouge">IMP</code>，，当<code class="highlighter-rouge">Current Action</code>被调用时，实际上被调用的是<code class="highlighter-rouge">Hook Action</code>的<code class="highlighter-rouge">IMP</code>，然后我们调用<code class="highlighter-rouge">Hook Action</code>，实际上被调用的是<code class="highlighter-rouge">Current Action</code>的<code class="highlighter-rouge">IMP</code>。我们以这种方式将<code class="highlighter-rouge">Hook Action</code>插入调用链，以下是<code class="highlighter-rouge">Method Swizzling</code>图解：
+<img src="http://upload-images.jianshu.io/upload_images/1319710-3f4513923e4ed6c0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="swizzling" /></p>
+
+<h3 id="2-swizzling函数的时机">2. swizzling函数的时机</h3>
+
+<p><code class="highlighter-rouge">+(void)load</code>函数在你动态加载或者静态引用了这个类的时候，该函数就会被执行，它并不需要你显示的去创建一个类后才会执行，同时它只会执行一次，几乎是完美的swizzling时机。</p>
+
+<p>举个栗子：我们要如何监听页面路径？新建一个<code class="highlighter-rouge">UIViewController+Category</code>类目，然后在<code class="highlighter-rouge">+(void)load</code>函数里替换<code class="highlighter-rouge">viewDidLoad</code>、<code class="highlighter-rouge">viewWillAppear:</code>、<code class="highlighter-rouge">viewDidAppear:</code>等函数,这样UIViewController的生命周期事件就替换成我们自定义的<code class="highlighter-rouge">fd_viewDidLoad</code>、<code class="highlighter-rouge">fd_viewWillAppear:</code>、<code class="highlighter-rouge">fd_viewDidAppear:</code>等函数。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#import "UIViewController+CollectEvent.h"
++ (void)load {
+    // dispatch_once 似乎没有必要，没有考证过
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        // 替换方法
+        [self sel_exchangeFirstSel:@selector(viewDidLoad) secondSel:@selector(fd_viewDidLoad)];
+        [self sel_exchangeFirstSel:@selector(viewWillAppear:) secondSel:@selector(fd_viewWillAppear:)];
+        [self sel_exchangeFirstSel:@selector(viewDidAppear:) secondSel:@selector(fd_viewDidAppear:)];
+    });
+}
+</code></pre></div></div>
+
+<p>除此之外，还有一些特殊的埋点并不适和在<code class="highlighter-rouge">+(void)load</code>函数进行<code class="highlighter-rouge">swizzling</code>,比如说Delegate的函数，后面会专门介绍。</p>
+
+<h3 id="3-加入数据统计代码">3. 加入数据统计代码</h3>
+
+<p>在swizzling成功后，我们在其中加入统计代码。为了保证响应链的完整，我们还需要调用<code class="highlighter-rouge">[self fd_viewDidLoad]</code>函数，让事件传递下去，继续调用控制器内部实现的<code class="highlighter-rouge">viewDidLoad</code>、<code class="highlighter-rouge">viewWillAppear:</code>、<code class="highlighter-rouge">viewDidAppear:</code>等函数，这样就不影响控制器的生命周期。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>//新的viewDidLoad方法
+- (void)fd_viewDidLoad {
+    CCLog(@"%@ viewDidLoad",NSStringFromClass([self class]));
+    // do something 在此加入统计代码
+    [self fd_viewDidLoad];
+}
+
+//新的viewWillAppear方法
+- (void)fd_viewWillAppear:(BOOL)animated {
+    CCLog(@"%@ viewWillAppear",NSStringFromClass([self class]));
+    // do something
+    [self fd_viewWillAppear:animated];
+}
+
+//新的viewWillDisappear方法
+- (void)fd_viewDidAppear:(BOOL)animated {
+    CCLog(@"%@ viewDidAppear",NSStringFromClass([self class]));
+    // do something
+    [self fd_viewDidAppear:animated];
+}
+</code></pre></div></div>
+
+<h1 id="进阶">进阶</h1>
+<p>除了监控页面路径这一类最基本的统计之外，我们还有其他各种各样的埋点需求，比如说 <strong>用户点击按钮</strong> 、<strong>用户上下滑动scroll view \ table view</strong> 等事件。</p>
+
+<h3 id="1-用户点击事件">1. 用户点击事件</h3>
+
+<p>iOS大多数可点击UI控件都是基于<code class="highlighter-rouge">UIControl</code>，而所有的事件也都要通过
+<code class="highlighter-rouge">- (void)sendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event</code>转发，通过此方法我们可以获取该控件所有的信息，包括所在的控制器，坐标系等。</p>
+
+<p>这样我们就有了完美的swizzling对象了。通过该方法，(据我不完全统计)我们可以监听到<code class="highlighter-rouge">UIButton</code>、<code class="highlighter-rouge">UITextField</code>、<code class="highlighter-rouge">UISwitch</code>、<code class="highlighter-rouge">UISegmentedControl</code>、<code class="highlighter-rouge">UISlider
+</code>、<code class="highlighter-rouge">UIStepper</code>等控件的Action事件。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@implementation UIControl (CollectEvent)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{    
+        //创建新的sendAction:to:forEvent:方法
+        [self sel_exchangeFirstSel:@selector(sendAction:to:forEvent:) secondSel:@selector(fd_sendAction:to:forEvent:)];
+    });
+}
+
+- (void)fd_sendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event {
+    CCLog(@"%@ send action:%@ to:%@ frame:(x:%.2f y:%.2f w:%.2f h:%.2f)",
+          [self class],
+          NSStringFromSelector(action),
+          NSStringFromClass([target class]),
+          self.frame.origin.x,
+          self.frame.origin.y,
+          self.frame.size.width,
+          self.frame.size.height);
+    // 加入统计代码 
+    [self fd_sendAction:action to:target forEvent:event];
+}
+@end
+</code></pre></div></div>
+
+<p>以下点击按钮自动打印的log：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2017-05-03 16:06:38.766 CrashDemo[19408:832620] Crash Collect: UIStepper send action:stepperValueDidChange: to:ActionViewController frame:(x:113.00 y:279.00 w:94.00 h:29.00)
+2017-05-03 16:06:52.800 CrashDemo[19408:832620] Crash Collect: UISwitch send action:switchValueDidChange: to:ActionViewController frame:(x:135.50 y:160.00 w:51.00 h:31.00)
+2017-05-03 16:06:54.927 CrashDemo[19408:832620] Crash Collect: UIButton send action:buttonDidTouchUpInside: to:ActionViewController frame:(x:137.00 y:338.00 w:46.00 h:30.00)
+</code></pre></div></div>
+<p>注意：UI控件 <strong>拖线</strong> 和 <strong>代码添加</strong> 的事件都可以监听到，如果控件未实现action事件，则无法监听。</p>
+
+<h3 id="2-delegate事件">2. Delegate事件</h3>
+
+<p><code class="highlighter-rouge">+ (void)load</code>的套路在Delegate这里并不适用，我们要重新选择<code class="highlighter-rouge">swizzling</code>的时机，经过研究考察后<code class="highlighter-rouge">setDelegate:</code>脱颖而出，<code class="highlighter-rouge">setDelegate:</code>只有在需要代理事件的时候才会执行，避免了资源浪费。</p>
+
+<p>首先先替换掉<code class="highlighter-rouge">setDelegate:</code></p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@implementation UIScrollView (CollectEvent)
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&amp;onceToken, ^{
+        [self sel_exchangeFirstSel:@selector(setDelegate:) secondSel:@selector(fd_setDelegate:)];
+    });
+}
+@end
+</code></pre></div></div>
+
+<p>然后再在<code class="highlighter-rouge">setDelegate:</code>里面替换我们真正想要监听的代理事件。由于setDelegate方法可能被多次调用，所以要判断是否已经swizzling了，防止重复执行。</p>
+
+<p>我们还要保证在每个控制器里都执行一次，所以替换的方法都会加上<code class="highlighter-rouge">class name</code>的前缀，以示区别。如果是<code class="highlighter-rouge">UITableView</code>，我们会额外swizzling<code class="highlighter-rouge">tableView:didSelectRowAtIndexPath:</code>事件，以监听<code class="highlighter-rouge">UITableViewCell</code>的点击事件。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define GET_CLASS_CUSTOM_SEL(sel,class)  NSSelectorFromString([NSString stringWithFormat:@"%@_%@",NSStringFromClass(class),NSStringFromSelector(sel)])
+</code></pre></div></div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)fd_setDelegate:(id&lt;UIScrollViewDelegate&gt;)delegate {
+    // 由于setDelegate方法可能被多次调用，所以要判断是否已经swizzling了，防止重复执行。
+    if (![self isContainSel:GET_CLASS_CUSTOM_SEL(@selector(scrollViewWillBeginDragging:),[delegate class]) inClass:[delegate class]]) {
+        [self swizzling_scrollViewWillBeginDragging:delegate];
+    }
+
+    if ([NSStringFromClass([self class]) isEqualToString:@"UITableView"]){
+        if (![self isContainSel:GET_CLASS_CUSTOM_SEL(@selector(tableView:didSelectRowAtIndexPath:),[delegate class]) inClass:[delegate class]]) {
+            [(UITableView *)self swizzling_tableViewDidSelectRowAtIndexPathInClass:delegate];
+        }
+    }
+    [self fd_setDelegate:delegate];
+}
+</code></pre></div></div>
+
+<p>我们需要手动添加一个<code class="highlighter-rouge">swizzling delegate method</code>，绑定<code class="highlighter-rouge">fd_scrollViewWillBeginDragging:</code>的<code class="highlighter-rouge">IMP</code>，如果控制器内未实现代理方法，我们也需要手动添加<code class="highlighter-rouge">origin delegate method</code>，否则将无法swizzling。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-2cd63cf9afe8dca0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="delegate" /></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (void)swizzling_scrollViewWillBeginDragging:(id&lt;UIScrollViewDelegate&gt;)delegate {
+    // 为每个含tableView的控件 增加swizzling delegate method
+    [self class_addMethod:[delegate class]
+                 selector:GET_CLASS_CUSTOM_SEL(@selector(scrollViewWillBeginDragging:),[delegate class])
+                      imp:method_getImplementation(class_getInstanceMethod([self class],@selector(fd_scrollViewWillBeginDragging:)))
+                    types:"v@:@"];
+    
+    // 检查页面是否已经实现了origin delegate method  如果没有手动加一个
+    if (![self isContainSel:@selector(scrollViewWillBeginDragging:) inClass:[delegate class] ]) {
+        [self class_addMethod:[delegate class]
+                     selector:@selector(scrollViewWillBeginDragging:)
+                          imp:nil
+                        types:"v@"];
+    }
+    
+    // 将swizzle delegate method 和 origin delegate method 交换
+    [self sel_exchangeClass:[delegate class]
+                   FirstSel:@selector(scrollViewWillBeginDragging:)
+                  secondSel:GET_CLASS_CUSTOM_SEL(@selector(scrollViewWillBeginDragging:),[delegate class])];
+}
+
+
+/**
+ swizzle method IMP
+ 
+ @param scrollView scrollView description
+ */
+- (void)fd_scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    CCLog(@"%@ scrollViewWillBeginDragging:",NSStringFromClass([self class]));
+    SEL sel = GET_CLASS_CUSTOM_SEL(@selector(scrollViewWillBeginDragging:),[self class]);
+    if ([self respondsToSelector:sel]) {
+        IMP imp = [self methodForSelector:sel];
+        void (*func)(id, SEL,id) = (void *)imp;
+        func(self, sel,scrollView);
+    }
+}
+</code></pre></div></div>
+<p>最终调用链：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-410595aefddb4296.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="final" /></p>
+
+<p>最终效果Log:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2017-05-04 15:40:29.239 CrashDemo[29907:797081] Crash Collect: ScrollViewController scrollViewWillBeginDragging:
+2017-05-04 15:40:50.651 CrashDemo[29907:797081] Crash Collect: TableViewController scrollViewWillBeginDragging:
+2017-05-04 15:40:52.049 CrashDemo[29907:797081] Crash Collect: TableViewController didSelectRowAtIndexPath:0:5
+</code></pre></div></div>
+
+<h1 id="拓展">拓展</h1>
+<ol>
+  <li>UITableView的点击事件也可以通过swizzling <code class="highlighter-rouge">UITableViewCell</code> 的 <code class="highlighter-rouge">- (void)setSelected:(BOOL)selected animated:(BOOL)animated</code>的方式实现。</li>
+  <li>无埋点数据统计结合了crash统计之后，对crash进行事件回溯，可以分析用户在crash前做了哪些行为，更快定位造成crash的真正原因。</li>
+  <li>还有很多需要监听的事件待完善，本文只列举了其中几项。</li>
+  <li><a href="https://github.com/xietao3/CrashCollectionDemo">Demo在这里</a></li>
+</ol>
+
+<blockquote>
+  <p>本文有错误的地方欢迎指正，别懟脸😁。</p>
+</blockquote>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2017/05/avoidCrash/" title="link to iOS - 被赶尽杀绝的Crash">iOS - 被赶尽杀绝的Crash</a></h2>
+       <p class="excerpt">  Crash曾经是折磨我们的梦魇，程序员的头顶的一把铡刀，你永远不知道它什么时候降下来…背景现在市面上Crash收集做得好的平台已经很多了，比如说听云、Bugly等，听云的功能确实强大、Crash的崩溃轨迹是其他平台上没有看到的，但是其价格有点惊人，而Bugly只记录页面轨迹，但是Bugly是免费的。不管是听云还是Bugly，他们的功能其实都是很好实现的，下面我会一一介绍。收集Crash在AppDelegate加入收集Crash的方法，具体监听Crash代码新建一个类目或者建一个单例都可...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2017-05-05 15:10:24 +0800" class="post-list__meta--date date">2017-05-05</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2017/05/avoidCrash/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2017/04/doubleRemote/" title="link to 呦~ 玩转Git 多远端的应用">呦~ 玩转Git 多远端的应用</a></h2>
+       <p class="excerpt">  Git使用小技巧—食之无味，弃之可惜，坚持不铺张浪费的原则。背景对比GitHub和Bitbucket各有优劣势(国内的不敢用)，单一使用都是各种限制，比如说GitHub什么都好就是私有仓库要收费，而Bitbucket虽然免费，但是又各种卡，推送和拉取都比较慢，我们的口号是鱼和熊掌兼得，取二者之长。文章结尾处还总结了两点妙用。            平台      私有仓库      io速度      使用频率                  Github      收费      ...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2017-04-21 15:50:24 +0800" class="post-list__meta--date date">2017-04-21</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2017/04/doubleRemote/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+   
+    <div id="gitalk-container"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'a7e3bcc8c313f6fcf2cf',
+        clientSecret: '1d7f990ff0250384dea6b037ce7d6e455d84d472',
+        repo: 'xietao3.github.io',
+        owner: 'xietao3',
+        admin: ['xietao3'],
+        id: 'BlogComment',
+        distractionFreeMode: true
+      });
+      gitalk.render('gitalk-container');
+
+    </script>
+
+  
+
+
+
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">本站由 <a href="http://xietao3.com/about">xietao3</a> 
+        创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

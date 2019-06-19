@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+
+  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="baidu-site-verification" content="vuqzu4486i" />
+  <meta name="baidu-site-verification" content="yR54QJzaFG" />
+  <title>呦~ 玩转Git 多远端的应用</title>
+  <meta name="description" content="  Git使用小技巧—食之无味，弃之可惜，坚持不铺张浪费的原则。">
+  <meta name="author" content="xie tao">
+
+<!--   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="呦~ 玩转Git 多远端的应用">
+  <meta name="twitter:description" content="  Git使用小技巧—食之无味，弃之可惜，坚持不铺张浪费的原则。"> -->
+  
+<!--   <meta property="og:type" content="article">
+  <meta property="og:title" content="呦~ 玩转Git 多远端的应用">
+  <meta property="og:description" content="  Git使用小技巧—食之无味，弃之可惜，坚持不铺张浪费的原则。"> -->
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.ico" />
+  <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/04/doubleRemote/">
+  <link rel="alternate" type="application/rss+xml" title="wangquanzhen" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?df0994aacf7a4c9779a5632908de3196";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="wangquanzhen logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button">wangquanzhen</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">探索之旅，学习之路</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">你好，我是王权振！欢迎来到我的个人主页.</br>90后代码搬运工，</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="进入博客" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="/about/index.html" target="_blank" title="了解更多关于我">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+  
+    <a href="http://weibo.com/u/2803559240" title="xietao3 的微博" target="_blank">
+    <!-- <a href="http://weibo.com/xietao3" title="xietao3 的微博" target="_blank"> -->
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/xietao3" title="xietao3 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  
+   <!-- CSDN -->
+  <li class="navigation__item">
+    <a href="http://blog.csdn.net/xietao3" title="xietao3 的 CSDN" target="_blank">
+      <img src="/assets/images/csdn.png" width="20" height="20" />
+      <!-- <i class='social fa fa-edit'></i> -->
+      <span class="label">csdn</span>
+    </a>
+  </li>
+  
+
+  <!-- RSS -->
+<!--   <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li> -->
+
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-orange"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-04-21 15:50:24 +0800" itemprop="datePublished" class="post-meta__date date">2017-04-21</time> &#8226; <span class="post-meta__tags tags"></span>
+    </div>
+    <h1 class="post-title">呦~ 玩转Git 多远端的应用</h1>
+  </header>
+
+  <section class="post">
+    <p><img src="http://upload-images.jianshu.io/upload_images/1319710-556d3532d7de6bbd.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="Git" /></p>
+<blockquote>
+  <p>Git使用小技巧—食之无味，弃之可惜，坚持不铺张浪费的原则。</p>
+</blockquote>
+
+<h1 id="背景">背景</h1>
+<p>对比<code class="highlighter-rouge">GitHub</code>和<code class="highlighter-rouge">Bitbucket</code>各有优劣势(国内的不敢用)，单一使用都是各种限制，比如说GitHub什么都好就是私有仓库要收费，而Bitbucket虽然免费，但是又各种卡，推送和拉取都比较慢，我们的口号是鱼和熊掌兼得，取二者之长。文章结尾处还总结了两点妙用。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>平台</th>
+      <th>私有仓库</th>
+      <th>io速度</th>
+      <th>使用频率</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Github</td>
+      <td>收费</td>
+      <td>快</td>
+      <td>频繁</td>
+    </tr>
+    <tr>
+      <td>Bitbucket</td>
+      <td>免费</td>
+      <td>慢</td>
+      <td>偶尔</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="如何各取所长">如何各取所长</h1>
+
+<h4 id="1建立远端">1.建立远端</h4>
+
+<p>首先在<code class="highlighter-rouge">GitHub</code>和<code class="highlighter-rouge">Bitbucket</code>各建立一个仓库。使用Git管理工具<code class="highlighter-rouge">SourceTree</code>上选择新建Remote（远端仓库），建立<code class="highlighter-rouge">GitHub Remote</code>、<code class="highlighter-rouge">Bitbucket Remote</code>两个远程仓库。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-592b6c38229b98cb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/340" alt="新建远程仓库" /></p>
+
+<h4 id="2建立分支">2.建立分支</h4>
+
+<p>然后建立常用开发分支<code class="highlighter-rouge">Dev</code>，敏感信息分支<code class="highlighter-rouge">Secret</code>等两个分支，将<code class="highlighter-rouge">dev</code>推送到<code class="highlighter-rouge">GitHub</code>远端仓库，<code class="highlighter-rouge">Secret</code>推送至<code class="highlighter-rouge">Bitbucket</code>远端仓库。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-5e03f97ef827f67d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="将分支推送到远端仓库" /></p>
+
+<h4 id="3分支的分工明确">3.分支的分工明确</h4>
+<p>平时开发使用<code class="highlighter-rouge">Dev</code>分支，充分发挥在GitHub上推送拉取快速的优势，定期将<code class="highlighter-rouge">Dev</code>分支同步到<code class="highlighter-rouge">Secret</code>分支中。而一些敏感信息直接在<code class="highlighter-rouge">Secret</code>分支中修改，这样<code class="highlighter-rouge">Secret</code>分支保证了安全性，<code class="highlighter-rouge">Dev</code>分支保证了良好的体验。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-ef34b5bc8654da77.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="远程仓库各自的分支" /></p>
+
+<h1 id="操作使用">操作使用</h1>
+
+<h4 id="1推送">1.推送</h4>
+
+<p>在存在多远端的项目中推送代码需要注意选择 <strong>远端仓库</strong> 和 <strong>分支</strong> ,确定后选择提交。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-3dd31d758fa187ba.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="推送" /></p>
+
+<h4 id="2拉取">2.拉取</h4>
+
+<p>拉取更新的时候同样需要注意选择 <strong>远端仓库</strong> 和 <strong>分支</strong> ，还有拉取到的本地分支也要核对，避免出错。例图即是将<code class="highlighter-rouge">GitHub</code>仓库中的<code class="highlighter-rouge">Dev</code>分支中的代码同步至<code class="highlighter-rouge">Secret</code>分支。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-77e6fad6d396e452.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="拉取" /></p>
+
+<h1 id="其他妙用">其他妙用</h1>
+<p>1.再也不怕因为丢失GitHub密码造成丢失代码节点控制。<br />
+2.权限控制，dev分支相当于开发权限，secret分支相对于管理员权限。</p>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2017/05/dataStatistics/" title="link to iOS无埋点数据统计实践">iOS无埋点数据统计实践</a></h2>
+       <p class="excerpt">  手动埋点太麻烦了，谁用谁知道。背景一直以来，大数据紧紧的和埋点技术捆绑在一起，甚至大数据时代也可以说是埋点时代。这话没毛病，但是埋点一直都存在着效率低下的问题，构建起来费时间，容易出错，每次修改埋点都需要开发手动修改等问题。无埋点统计技术闪亮登场，很好地解决了这个问题，解放了程序员的双手。内容概要本文Demo已经实现以下内容：            主要功能      备注                  crash监控      已完成              卡顿监控     ...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2017-05-04 16:50:24 +0800" class="post-list__meta--date date">2017-05-04</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2017/05/dataStatistics/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2017/03/jenkins_log/" title="link to Jenkins+fir 上传更新日志">Jenkins+fir 上传更新日志</a></h2>
+       <p class="excerpt">  iOS开发自动打包应该很多人用了，但是其中还有一些地方不够完美，比如说打包上传成功fir和邮件没有更新日志内容，嗯，我要说的就是这个。背景在日常开发中持续集成可以节省开发者很多时间和精力，fir下载地址和邮件没有更新日志内容，这样无法通知测试人员具体修改内容，造成了很多不便，所以有了这个需求，下面贴一张没有更新日志和有更新日志对比图。步骤前提：首先你得先折腾好打包工具吧，现在的教程都已经很多了，贴一下当时我看的教程：1.Jenkins+GitHub+Xcode+fir自动打包教程2.我...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2017-03-17 14:50:24 +0800" class="post-list__meta--date date">2017-03-17</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2017/03/jenkins_log/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+   
+    <div id="gitalk-container"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'a7e3bcc8c313f6fcf2cf',
+        clientSecret: '1d7f990ff0250384dea6b037ce7d6e455d84d472',
+        repo: 'xietao3.github.io',
+        owner: 'xietao3',
+        admin: ['xietao3'],
+        id: 'BlogComment',
+        distractionFreeMode: true
+      });
+      gitalk.render('gitalk-container');
+
+    </script>
+
+  
+
+
+
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">本站由 <a href="http://xietao3.com/about">xietao3</a> 
+        创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

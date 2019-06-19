@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+
+  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="baidu-site-verification" content="vuqzu4486i" />
+  <meta name="baidu-site-verification" content="yR54QJzaFG" />
+  <title>包教包会-贝塞尔曲线的绘制原理与应用</title>
+  <meta name="description" content="  说来话长，这一切都得从PhotoShop中的钢笔工具开始说起…">
+  <meta name="author" content="xie tao">
+
+<!--   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="包教包会-贝塞尔曲线的绘制原理与应用">
+  <meta name="twitter:description" content="  说来话长，这一切都得从PhotoShop中的钢笔工具开始说起…"> -->
+  
+<!--   <meta property="og:type" content="article">
+  <meta property="og:title" content="包教包会-贝塞尔曲线的绘制原理与应用">
+  <meta property="og:description" content="  说来话长，这一切都得从PhotoShop中的钢笔工具开始说起…"> -->
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.ico" />
+  <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/06/bezierPath/">
+  <link rel="alternate" type="application/rss+xml" title="wangquanzhen" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?df0994aacf7a4c9779a5632908de3196";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="wangquanzhen logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button">wangquanzhen</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">探索之旅，学习之路</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">你好，我是王权振！欢迎来到我的个人主页.</br>90后代码搬运工，</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="进入博客" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="/about/index.html" target="_blank" title="了解更多关于我">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+  
+    <a href="http://weibo.com/u/2803559240" title="xietao3 的微博" target="_blank">
+    <!-- <a href="http://weibo.com/xietao3" title="xietao3 的微博" target="_blank"> -->
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/xietao3" title="xietao3 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  
+   <!-- CSDN -->
+  <li class="navigation__item">
+    <a href="http://blog.csdn.net/xietao3" title="xietao3 的 CSDN" target="_blank">
+      <img src="/assets/images/csdn.png" width="20" height="20" />
+      <!-- <i class='social fa fa-edit'></i> -->
+      <span class="label">csdn</span>
+    </a>
+  </li>
+  
+
+  <!-- RSS -->
+<!--   <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li> -->
+
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-orange"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-06-22 22:03:11 +0800" itemprop="datePublished" class="post-meta__date date">2017-06-22</time> &#8226; <span class="post-meta__tags tags"></span>
+    </div>
+    <h1 class="post-title">包教包会-贝塞尔曲线的绘制原理与应用</h1>
+  </header>
+
+  <section class="post">
+    <p><img src="http://upload-images.jianshu.io/upload_images/1319710-f68c70b0ca4ac62c.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图来自pexels" /></p>
+<blockquote>
+  <p>说来话长，这一切都得从PhotoShop中的钢笔工具开始说起…</p>
+</blockquote>
+
+<p><strong>声明：本文不含复杂数学公式，学渣放心阅读吧😂</strong>(我仿佛看到了学渣们留下了激动的泪水)</p>
+
+<h1 id="背景">背景</h1>
+<p>贝塞尔曲线(Bézier curve)是应用于二维图形应用程序的数学曲线，贝塞尔曲线基于多个点构成。它的应用非常广泛，比如说PS中的钢笔工具所绘画的曲线就是贝塞尔曲线，绘制动画的运动轨迹等等，而最近一次想用到贝塞尔曲线是想做一个 <strong>路径动画</strong> 。</p>
+
+<h1 id="简介">简介</h1>
+<p>在iOS开发中一般通过<code class="highlighter-rouge">UIBezierPath</code>来实现贝塞尔曲线的绘制，平时一般使用绘制二阶和三阶贝塞尔曲线的方法。而我们要做的远超二三阶的贝塞尔曲线，<a href="https://github.com/xietao3/XTBezierPathBuilderDemo">本文 iOS Demo</a>在原理上实现了N阶贝塞尔曲线的绘制，未使用任何相关API，纯手动绘制贝塞尔曲线，并且可以拖动滑块浏览贝塞尔曲线的绘制过程。</p>
+
+<p><a href="https://github.com/xietao3/XTBezierPathBuilderDemo">本文 iOS Demo</a> 实现以下功能:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>实现功能</th>
+      <th>描述</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>绘制贝塞尔曲线</td>
+      <td>1、点击空白处设置贝塞尔曲线的点  2、可以设置贝塞尔曲线阶数  3、播放贝塞尔曲线绘制过程  4、拖动滑块，自由查看绘制过程每一个瞬间</td>
+    </tr>
+    <tr>
+      <td>简易曲线图表</td>
+      <td>每两个点之间都是用3阶贝塞尔曲线连接(细节待完善)</td>
+    </tr>
+    <tr>
+      <td>过山车</td>
+      <td>1、在空白处绘制贝塞尔曲线  2、过山车沿着绘制的贝塞尔曲线行驶  3、支持多个连接的贝塞尔曲线路径</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Demo示例图</strong>
+<img src="http://upload-images.jianshu.io/upload_images/1319710-b802c4d1da045b6e.gif?imageMogr2/auto-orient/strip" alt="8阶贝塞尔曲线绘制过程" /></p>
+
+<h1 id="贝塞尔曲线的绘制原理">贝塞尔曲线的绘制原理</h1>
+
+<p>说到绘制原理，如果贴👇这张图，我只能说：什么鬼！！！我看不懂，听不见，你说什么… 
+路人甲：简单点…说话的方式简单点~</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1819486-bfbef7229c101bde?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="失败案例" /></p>
+
+<p>首先提供<a href="http://myst729.github.io/bezier-curve/">一个可以动态绘制贝塞尔曲线的网站</a>帮助你更好地理解贝塞尔曲线的绘制。</p>
+<h3 id="1--点">1.  点</h3>
+
+<p>贝塞尔曲线点的数量决定了曲线的阶数，一般N个点构成的N-1阶贝塞尔曲线，即3个点为二阶，至少由3个点组成，为什么两个点不行，两个点组成的是直线。按顺序，第一个点为 <strong>起点</strong> ，最后一个点为 <strong>终点</strong> ，其余点都为 <strong>控制点</strong> 。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-654861388c5b30d9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="A起点、B控制点 、C终点以及绘制的贝塞尔曲线" /></p>
+
+<h3 id="2-点生线">2. 点生线</h3>
+<p>这里说的线不是贝塞尔曲线，而是各个点按顺序连接起来，形成的直线，如上图<code class="highlighter-rouge">AB</code>、<code class="highlighter-rouge">BC</code>两条线。在这里我们要将整个曲线的绘制量化为从<code class="highlighter-rouge">0~1</code>的过程，用<code class="highlighter-rouge">progress</code>为当前过程的进度，<code class="highlighter-rouge">progress</code>的区间即<code class="highlighter-rouge">0~1</code>。每一条线都需要根据<code class="highlighter-rouge">progress</code>生成一个点，如下图，一个点从<code class="highlighter-rouge">P0</code>移动到<code class="highlighter-rouge">P1</code>,这是这条线从<code class="highlighter-rouge">0~1</code>的过程。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-646b9393dc6bdf05.gif?imageMogr2/auto-orient/strip" alt="根据进度点从起点向终点移动" /></p>
+
+<p>下面是绘制一个二阶贝塞尔曲线过程，先给口诀： <strong>点生线，线生点</strong> 😂。由<code class="highlighter-rouge">A</code>、<code class="highlighter-rouge">B</code>、<code class="highlighter-rouge">C</code>这3个点组成2条线<code class="highlighter-rouge">AB</code>和<code class="highlighter-rouge">BC</code>，2条线根据<code class="highlighter-rouge">progress</code>分别生成2个移动的点<code class="highlighter-rouge">D</code>和<code class="highlighter-rouge">E</code>，而<code class="highlighter-rouge">D</code>和<code class="highlighter-rouge">E</code>又连成一条线，始终保持<code class="highlighter-rouge">AD:DB=BE:EC</code>。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-ae1473f2f7da53ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="progress为0.3 的连线 " />
+<img src="http://upload-images.jianshu.io/upload_images/1319710-efbcbd8d33b9e7a7.gif?imageMogr2/auto-orient/strip" alt="移动的线" /></p>
+
+<p><code class="highlighter-rouge">DE</code>,<code class="highlighter-rouge">DE</code>再根据<code class="highlighter-rouge">progress</code>生成点<code class="highlighter-rouge">F</code>，只剩一个点，无法构成线，即为最终构成贝塞尔曲线的点。红色点为<code class="highlighter-rouge">progress</code>在<code class="highlighter-rouge">0~1</code>过程中点<code class="highlighter-rouge">F</code>的移动过程，保持<code class="highlighter-rouge">AD:DB=BE:EC=DF:FE</code>。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-7ea572906d977e3b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/440" alt="progress为0.3 最终的点" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-e23aa5ee1c570b24.gif?imageMogr2/auto-orient/strip" alt="点F的移动过程" /></p>
+
+<h3 id="3-绘制贝塞尔曲线">3. 绘制贝塞尔曲线</h3>
+<p>经过上面 <strong>点生线，线生点</strong> 的过程 ，我们拿到了点F在移动中所有点的，将这些点集合连接起来，即形成了贝塞尔曲线。<code class="highlighter-rouge">progress</code>自增越慢，点集合的点越多，曲线就越细致。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-34d7cf413ee16f0e.gif?imageMogr2/auto-orient/strip" alt="绘制二阶贝塞尔曲线过程" /></p>
+
+<h3 id="4-n阶贝塞尔曲线">4. N阶贝塞尔曲线</h3>
+<p>稍微了解算法的同学就能发现，其实 <strong>点生线，线生点</strong> 是一个递归的过程，通过底层的点，一步步推算出最高阶的点。整个推导过程像一个金字塔，底部点的数量最多，每高一阶点的数量就减1，直至最高阶只有1个点。</p>
+
+<p>**下面是递归代码： **</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 贝塞尔曲线每高一阶  需要递归次数+1
++ (NSArray *)recursionGetsubLevelPointsWithSuperPoints:(NSArray *)points progress:(CGFloat)progress{
+    // 得到最终的点 正确结束递归 
+    if (points.count == 1) return points;
+    
+    NSMutableArray *tempArr = [[NSMutableArray alloc] init];
+    for (int i = 0; i &lt; points.count-1; i++) {
+        // 第一个点 
+        NSValue *preValue = [points objectAtIndex:i];
+        CGPoint prePoint = preValue.CGPointValue;
+        // 第二个点
+        NSValue *lastValue = [points objectAtIndex:i+1];
+        CGPoint lastPoint = lastValue.CGPointValue;
+
+        // 两点坐标差
+        CGFloat diffX = lastPoint.x-prePoint.x;
+        CGFloat diffY = lastPoint.y-prePoint.y;
+
+        // 根据当前progress得出高一阶的点
+        CGPoint currentPoint = CGPointMake(prePoint.x+diffX*progress, prePoint.y+diffY*progress);
+        [tempArr addObject:[NSValue valueWithCGPoint:currentPoint]];
+    }
+    // 继续下一次递归过程
+    return [self recursionGetsubLevelPointsWithSuperPoints:tempArr progress:progress];
+}
+</code></pre></div></div>
+<p><strong>8阶贝塞尔曲线绘制过程：</strong>
+<img src="http://upload-images.jianshu.io/upload_images/1319710-b802c4d1da045b6e.gif?imageMogr2/auto-orient/strip" alt="8阶贝塞尔曲线绘制过程" /></p>
+
+<h1 id="贝塞尔曲线的应用">贝塞尔曲线的应用</h1>
+<p>光讲原理脱离实践这不是程序员的风格，简单地写了2个贝塞尔曲线的应用，都在<strong><a href="https://github.com/xietao3/XTBezierPathBuilderDemo">本文 iOS Demo</a></strong> 里面，欢迎运行体验。</p>
+<h3 id="1-过山车">1. 过山车</h3>
+<p>通过点击屏幕收集点，将点集合生成贝塞尔曲线，可生成多个相连的贝塞尔曲线。小车按照生成的贝塞尔曲线路径前进。</p>
+
+<p><strong>a. 画路径</strong>
+通过计算贝塞尔曲线的长度，根据曲线长度分配点的数量，达到点的相对均匀分布，使过山车 <strong>匀速前进</strong> 。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-f9f35dbe987a9c51.gif?imageMogr2/auto-orient/strip" alt="画路径" /></p>
+
+<p><strong>b. 发车</strong>
+每个点都与前面一个点连线，通过计算得出两点的连线与水平形成的夹角，将角度赋予过山车实现 <strong>转向功能</strong> 。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-71703ee22240004c.gif?imageMogr2/auto-orient/strip" alt="发车" /></p>
+
+<h3 id="2-简易曲线图表">2. 简易曲线图表</h3>
+
+<p><strong>a. 直线图表</strong>
+即最简单的两点连成直线。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-78a238b63e1be55e.gif?imageMogr2/auto-orient/strip" alt="直线图表" /></p>
+
+<p><strong>b. 曲线图表</strong>
+曲线图表的曲线全部由3阶贝塞尔曲线构成，整个曲线图不含任何棱角。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-b3fce50cd7dd88ac.gif?imageMogr2/auto-orient/strip" alt="曲线图表" /></p>
+
+<h1 id="拓展">拓展</h1>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-57b4a7ab5be942bd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/240" alt="PaintCode" />
+推荐一个<code class="highlighter-rouge">iOS</code>画路径神器<code class="highlighter-rouge">PaintCode</code>，画好图形直接生成代码，用钢笔工具画贝塞尔曲线也十分方便。下图为用钢笔工具画一个圆球(貌似不够圆😆)：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-0e96890b3f08676c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="生成代码" /></p>
+
+<h1 id="总结">总结</h1>
+<p>为了准备这一篇文章差不多理解了贝塞尔曲线的绘制原理，但是在细节处，比如说真正意义上贝塞尔曲线点的均匀分布还有待完善，求曲线公式也没有去研究，贝塞尔曲线在复杂的动画方向地应用也是大有作为。</p>
+
+<h1 id="参考">参考</h1>
+<p><a href="http://www.jianshu.com/p/55c721887568">贝塞尔曲线开发的艺术</a>
+<a href="http://www.jianshu.com/p/1af5c3655fa3">Android：贝塞尔曲线原理分析</a></p>
+
+<p><strong>个人水平有限，欢迎提出建议。</strong></p>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2017/09/Deadlock/" title="link to 你不知道的的 iOS 多线程">你不知道的的 iOS 多线程</a></h2>
+       <p class="excerpt">  程序员用有限的生命去追求无限的知识。有言在先首先我不是故意要做标题党的，也不是我要炒冷饭，我只是想换个姿势看多线程，本文大部分内容在分析如何造死锁，奈何功力尚浅，然而再浅，也需要走出第一步。打开你的 Xcode 来验证这些死锁吧。多线程小知识以下是实现多线程的三种方式：  NSThread  GCD  NSOperationQueue关于具体使用的方法不再具体介绍，让我们来看看他们不为人知的一面1. 锁的背后NSLock是基于 POSIX threads 实现的，而 POSIX thr...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2017-09-19 23:40:11 +0800" class="post-list__meta--date date">2017-09-19</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2017/09/Deadlock/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2017/06/SpringAnimation/" title="link to 包教包会-弹性动画的原理与实现">包教包会-弹性动画的原理与实现</a></h2>
+       <p class="excerpt">  弹性动画一直以来都深深地吸引我，随着知识储备增多，渐渐探索出一套弹性动画的实现原理。简介本文将从零开始，一步步解析弹性动画原理，包教包会。本文Demo简单地封装了一个动画库来测试，支持UIView的三种动画类型：Size、Position、Scale，动画运动曲线有：bounce、easeInOut。CALayer动画暂不支持。运动曲线从初中开始，我们就开始接触正弦曲线、余弦曲线，现在真的排上用场了(😭后悔当初数学没学好)。我们可以通过对正弦余弦做一些处理，来得到动画的运动曲线。弹性动...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2017-06-01 18:58:24 +0800" class="post-list__meta--date date">2017-06-01</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2017/06/SpringAnimation/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+   
+    <div id="gitalk-container"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'a7e3bcc8c313f6fcf2cf',
+        clientSecret: '1d7f990ff0250384dea6b037ce7d6e455d84d472',
+        repo: 'xietao3.github.io',
+        owner: 'xietao3',
+        admin: ['xietao3'],
+        id: 'BlogComment',
+        distractionFreeMode: true
+      });
+      gitalk.render('gitalk-container');
+
+    </script>
+
+  
+
+
+
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">本站由 <a href="http://xietao3.com/about">xietao3</a> 
+        创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

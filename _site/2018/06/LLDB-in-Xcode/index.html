@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html>
+
+  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="baidu-site-verification" content="vuqzu4486i" />
+  <meta name="baidu-site-verification" content="yR54QJzaFG" />
+  <title>WWDC 2018：效率提升爆表的 Xcode 和 LLDB 调试技巧</title>
+  <meta name="description" content="  WWDC 2018 Session 412 : Advanced Debugging with Xcode and LLDB">
+  <meta name="author" content="xie tao">
+
+<!--   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="WWDC 2018：效率提升爆表的 Xcode 和 LLDB 调试技巧">
+  <meta name="twitter:description" content="  WWDC 2018 Session 412 : Advanced Debugging with Xcode and LLDB"> -->
+  
+<!--   <meta property="og:type" content="article">
+  <meta property="og:title" content="WWDC 2018：效率提升爆表的 Xcode 和 LLDB 调试技巧">
+  <meta property="og:description" content="  WWDC 2018 Session 412 : Advanced Debugging with Xcode and LLDB"> -->
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.ico" />
+  <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2018/06/LLDB-in-Xcode/">
+  <link rel="alternate" type="application/rss+xml" title="wangquanzhen" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?df0994aacf7a4c9779a5632908de3196";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="wangquanzhen logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button">wangquanzhen</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">探索之旅，学习之路</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">你好，我是王权振！欢迎来到我的个人主页.</br>90后代码搬运工，</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="进入博客" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="/about/index.html" target="_blank" title="了解更多关于我">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+  
+    <a href="http://weibo.com/u/2803559240" title="xietao3 的微博" target="_blank">
+    <!-- <a href="http://weibo.com/xietao3" title="xietao3 的微博" target="_blank"> -->
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/xietao3" title="xietao3 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  
+   <!-- CSDN -->
+  <li class="navigation__item">
+    <a href="http://blog.csdn.net/xietao3" title="xietao3 的 CSDN" target="_blank">
+      <img src="/assets/images/csdn.png" width="20" height="20" />
+      <!-- <i class='social fa fa-edit'></i> -->
+      <span class="label">csdn</span>
+    </a>
+  </li>
+  
+
+  <!-- RSS -->
+<!--   <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li> -->
+
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-orange"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2018-06-15 10:40:11 +0800" itemprop="datePublished" class="post-meta__date date">2018-06-15</time> &#8226; <span class="post-meta__tags tags"></span>
+    </div>
+    <h1 class="post-title">WWDC 2018：效率提升爆表的 Xcode 和 LLDB 调试技巧</h1>
+  </header>
+
+  <section class="post">
+    <blockquote>
+  <p>WWDC 2018 Session 412 : <a href="https://developer.apple.com/videos/play/wwdc2018/412/">Advanced Debugging with Xcode and LLDB</a></p>
+</blockquote>
+
+<h2 id="前言">前言</h2>
+
+<p>在程序员写 bug 的职业生涯中，只有 bug 会永远陪伴着你，如何处理与 bug 之间的关系，是每一位程序员的必修课。特别是入门程序员经常受 bug 的影响，熬夜加班压力大，长痘长胖还脱发。</p>
+
+<p>每一位 iOS 和 macOS 开发者都是幸运的，因为苹果的 Xcode 和 LLDB 调试工具，这是每一位开发者应该使用的调试神器，可以帮助我们更快地解决问题。本文将主要讲解 Xcode 的 <strong>断点调试</strong> 、<strong>LLDB 调试器</strong> 以及 <strong>视图结构调试</strong>（UI Hierarchy）的使用技巧，这些技巧将大幅减少调试中重新编译的次数，减少你的等待时间。</p>
+
+<p>这些技巧使用起来非常简单，而且在开发场景非常实用，每一位开发者都有必要掌握这些技巧。</p>
+
+<h2 id="一提升-swift-调试可用性-swift-debugging-reliability">一、提升 Swift 调试可用性 （Swift Debugging Reliability）</h2>
+
+<h3 id="11-解决从-ast-context-获取模块失败问题failed-to-get-module-from-ast-context">1.1 解决从 AST context 获取模块失败问题（Failed to get module from AST context）</h3>
+
+<p>相信很多开发者在使用 Swift 的时候，调试过程中的一些问题会让你很头痛。
+比如说下面这个问题，LLDB 在 AST Context 重建编译状态时，有些时候在复杂的情况下可能无法检测到部分模块的变化，于是调试器提示<code class="highlighter-rouge">Failed to get module from AST context</code>。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163e925acd190891?w=1384&amp;h=581&amp;f=jpeg&amp;s=134767" alt="" /></p>
+
+<p>在 Xcode 10 中，为了应对这个问题，会为当前的 frame 调用栈创建一个新的 expression evaluator 。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163e925f08d3858e?w=1384&amp;h=581&amp;f=jpeg&amp;s=93068" alt="" /></p>
+
+<h3 id="12-解决-swift-类型问题swift-type-resolution">1.2 解决 Swift 类型问题（Swift Type Resolution）</h3>
+
+<p>还有一些开发者会遇到在调试的时候无法显示变量类型、打印变量信息的问题如下图：</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163e927ebe99bb83?w=1322&amp;h=578&amp;f=jpeg&amp;s=87342" alt="" /></p>
+
+<p>苹果针对大量的错误报告进行追踪，在 Xcode 10 中修复了这个 bug ，调试信息中将不再会出现此类错误。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163e92811fe45906?w=1322&amp;h=578&amp;f=jpeg&amp;s=93289" alt="" /></p>
+
+<h2 id="二吐血推荐的调试小技巧advanced-debugging-tips-and-tricks">二、吐血推荐的调试小技巧（Advanced Debugging Tips and Tricks）</h2>
+
+<h3 id="21-自动创建调试标签页configure-behaviors-to-dedicate-a-tab-for-debugging">2.1 自动创建调试标签页（Configure behaviors to dedicate a tab for debugging）</h3>
+
+<p>想必你经常在看代码的时候由于执行到断点而被强行切换到断点所在的页面，在断点页面和之前页面进行切换的体验是非常差的。现在你可以设置在被断点的时候自动新建一个标签页，通过切换标签页你可以快速便捷地切回到之前浏览的页面。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163e946beb69b20c?w=1534&amp;h=190&amp;f=png&amp;s=43761" alt="" /></p>
+
+<p>设置自动新建 Debug Tab 方法：顶部导航栏 Xcode -&gt; Behaviors -&gt; Edit Behaviors… -&gt; Runing -&gt; Pauses -&gt; ✅ Show Tab Name <code class="highlighter-rouge">tab name</code> in <code class="highlighter-rouge">active window</code>。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163e94c35d019c1f?w=1824&amp;h=1324&amp;f=png&amp;s=444942" alt="" /></p>
+
+<h3 id="22-在-lldb-中修改-app-状态lldb-expressions-can-modify-program-state">2.2 在 LLDB 中修改 App 状态（LLDB expressions can modify program state）</h3>
+
+<p>在 LLDB 中通过<code class="highlighter-rouge">expression</code>命令可以改变程序当前的各种状态，<code class="highlighter-rouge">e</code>、<code class="highlighter-rouge">expr</code> 作为简写也可以实现同样的功能。我们用一个简单的<code class="highlighter-rouge">UILabel</code>来举例，为<code class="highlighter-rouge">myLabel</code>设置一个值 hello ， 正常来讲视图上的<code class="highlighter-rouge">myLabel</code>就应该显示 hello 。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>func test() -&gt; Void {
+myLabel.text = "hello"
+// 断点 -&gt; 
+}
+</code></pre></div></div>
+
+<p>你可以在<code class="highlighter-rouge">myLabel.text = "hello"</code>这句代码后设置一个断点，运行程序执行断点后，在控制台的 LLDB 调试器 中输入下面的表达式改变它的值，在继续运行程序之后，相信你在界面上看到的值一定是 hello world 。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 改变 myLabel 文案
+expr myLabel.text = "hello world"
+</code></pre></div></div>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163e9b2cf444a861?w=1280&amp;h=256&amp;f=png&amp;s=59224" alt="" /></p>
+
+<p>除了改变<code class="highlighter-rouge">myLabel.text</code>的值之外，你可以像在 Xcode 中写代码一样，在 LLDB 中进行同样的操作。例如你可以像下面的代码一样使用表达式改变它的文字颜色，也可以执行某个函数。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 改变 myLabel 文字颜色
+expr myLabel.textColor = UIColor.red
+
+// 执行 test 方法
+expr test()
+</code></pre></div></div>
+
+<h3 id="23-利用断点实时插入代码use-auto-continuing-breakpoints-with-debugger-commands-to-inject-code-live">2.3 利用断点实时插入代码（Use auto-continuing breakpoints with debugger commands to inject code live）</h3>
+
+<p>除了直接在控制台通过 LLDB 调试器修改 App 状态，你还可以通过在断点中添加命令来实现同样的功能。而且通过断点来设置调试命令的方式更加方便实用，几乎是实时插入代码的功能。</p>
+
+<p>如下图，设置一个断点，通过 Edit Breakpoint… 打开编辑框，你可以将多个不同的调试命令按顺序填入 Action 中，就能实现之前同样的功能。另外你可以勾选  Automatically continue after evaluationg actions ，可以自动继续执行后续代码，而不会停在这一行。
+<img src="https://user-gold-cdn.xitu.io/2018/6/10/163e9c26031edf00?w=1092&amp;h=804&amp;f=png&amp;s=137228" alt="" /></p>
+
+<h3 id="24-在汇编调用栈中打印函数实参po-arg1-arg2-etc-in-assembly-frames-to-print-function-arguments">2.4 在汇编调用栈中打印函数实参（”po $arg1” ($arg2, etc) in assembly frames to print function arguments）</h3>
+
+<p>首先，我们了解一下全局断点，你可以点击在 Breakpoints Navigator 左下角 + 号，然后选择 Symbolic Breakpoint… ，如下图，你可以在 Symbol 一栏输入任何你想监听的函数比如<code class="highlighter-rouge">[UILabel setText:]</code>，之后所有页面下的所有<code class="highlighter-rouge">UILabel</code>类型对象在设置<code class="highlighter-rouge">text</code>属性的时候都会执行该断点。（ps：我还不是最酷的😎）</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163e9efdd0eb1e68?w=3104&amp;h=1978&amp;f=png&amp;s=574184" alt="" /></p>
+
+<p>在这个断点的控制台中，并没有显示变量属性等信息，我们怎么能知道设置了什么呢？接下来我们可以用<code class="highlighter-rouge">$arg1</code>、<code class="highlighter-rouge">$arg2</code>等命令来打印出我们想要的信息。</p>
+
+<p>如下图，在这里<code class="highlighter-rouge">$arg1</code>是指对象本身，<code class="highlighter-rouge">$arg2</code>是对象被调用的函数，<code class="highlighter-rouge">po</code>命令无法直接输出函数名，需要加上<code class="highlighter-rouge">(SEL)</code>，<code class="highlighter-rouge">$arg3</code>是被赋给<code class="highlighter-rouge">text</code>的值。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163ea00e6f7ab42a?w=1062&amp;h=434&amp;f=png&amp;s=64979" alt="" /></p>
+
+<h3 id="25-利用-breakpoint-set-one-shot-true-命令创建一次性断点create-dependent-breakpoints-using-">2.5 利用 “breakpoint set –one-shot true” 命令创建一次性断点（Create dependent breakpoints using ）</h3>
+
+<p>上面我们介绍了全局断点，它能监测到全局的函数调用，但是我想监测某一个函数内局部区域的函数调用，这个时候我们可以使用<code class="highlighter-rouge">breakpoint set --one-shot true</code>命令动态生成一个断点，这个断点将是一次性的，执行一次后将被自动删除。</p>
+
+<p>最酷的是，我们将创建会先一个断点,如下图，让这个断点来实现这一切，即用一个断点来创建另外一个一次性的断点，为了让整个过程是无感的，我建议勾选  Automatically continue after evaluationg actions 选项。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163ea313aa24d063?w=1226&amp;h=508&amp;f=png&amp;s=130774" alt="" /></p>
+
+<p>上图这个断点到底干了什么？当执行到图中第 61 行的断点时，这个断点并不会导致命令执行暂停，它只干了一件事，就是通过命令<code class="highlighter-rouge">breakpoint set --name "[UILabel setText:]"</code>创建了一个全局断点，加上<code class="highlighter-rouge">--one-shot true</code>就代表是一次性的断点。</p>
+
+<p>如上图的执行效果就是<code class="highlighter-rouge">breakpoint set --one-shot true --name "[UILabel setText:]"</code>命令会让指针在<code class="highlighter-rouge">myLabel.text = "hello"</code>这一行暂停，暂停后一次性的使命就已经结束，所以在下一行<code class="highlighter-rouge">myLabel.text = "hello world"</code>是不会暂停的。</p>
+
+<h3 id="26-通过拖拽指令指针或-thread-jump-by-1-命令跳过一行代码skip-lines-of-code-by-dragging-instruction-pointer-or-thread-jump-by-1-">2.6 通过拖拽指令指针或 “thread jump –by 1” 命令跳过一行代码（Skip lines of code by dragging Instruction Pointer or “thread jump –by 1” ）</h3>
+
+<p>首先我们看如何通过拖拽指令指针来，跳过一段代码不执行。如下图，直接拖拽红色箭头指向的按钮，拖到哪从哪里开始执行，往上拖可以重复执行之前的代码，往下拖将不执行中间被跳过的代码。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/10/163ea53678d5e902?w=1318&amp;h=270&amp;f=png&amp;s=49832" alt="" /></p>
+
+<p>我们通过<code class="highlighter-rouge">thread jump --by 2</code>命令，跳过了 2 行代码，如下图将只打印 1 和 4 。
+<img src="https://user-gold-cdn.xitu.io/2018/6/11/163ea6edb2451f2f?w=1012&amp;h=510&amp;f=png&amp;s=108473" alt="" /></p>
+
+<h3 id="27-利用-watchpoints-监听变量的变化pause-when-variables-are-modified-by-using-watchpoints">2.7 利用 watchpoints 监听变量的变化（Pause when variables are modified by using watchpoints）</h3>
+
+<p>上面我们介绍了使用全局断点和一次性断点对<code class="highlighter-rouge">[UILabel setText:]</code>函数监听属性的变化，其实我们还有另一个选择，
+使用 watchpoints 通过监测内存的变化来监听属性的变化。</p>
+
+<p>我们可以在<code class="highlighter-rouge">viewDidLoad</code>函数中设置一个断点，然后再控制台找到你需要监听的属性，如下图：</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163efb9bb0924e67?w=946&amp;h=228&amp;f=png&amp;s=50242" alt="" /></p>
+
+<p>选中你想要监听的属性后，点击右键将弹出下图窗口，点击 Watch “count”即可监听属性 count 的值的改变，如执行<code class="highlighter-rouge">count+=1</code>。需要注意的是每当重新编译后指针发生变化，就需要重新设置 watchpoints 。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163efc02bd236d5d?w=289&amp;h=400&amp;f=png&amp;s=79653" alt="" /></p>
+
+<h3 id="28--swift-调用栈中在-lldb-调试器使用-obj-c-代码命令evaluate-obj-c-code-in-swift-frames-with-expression--l-objc--o--">2.8  Swift 调用栈中在 LLDB 调试器使用 Obj-C 代码命令（Evaluate Obj-C code in Swift frames with “expression -l objc -O – <expr>”）</expr></h3>
+
+<p>在日常调试中，使用 LLDB 命令<code class="highlighter-rouge">po [self.view recursiveDescription]</code>命令来输出页面视图结构是非常方便的，然而我们在 Swift 调用栈中使用这个命令的时候将打印以下错误：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>po self.view.recursiveDescription()
+error: &lt;EXPR&gt;:3:6: error: value of type 'UIView?' has no member 'recursiveDescription'
+self.view.recursiveDescription()
+~~~~~^~~~ ~~~~~~~~~~~~~~~~~~~~
+</code></pre></div></div>
+
+<p>其实我们可以通过“expression -l objc -O – <expr>”命令来使用 Obj-C 代码来输出我们想要的视图结构，记得``self.view``两边一定要加上 \` 符号。</expr></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>expression -l objc -O -- [`self.view` recursiveDescription]
+</code></pre></div></div>
+
+<p>不知道你们有没有觉得上面这个命令有点长，还好我们可以可以通过<code class="highlighter-rouge">command alias &lt;alias name&gt; expression -l objc -O —-</code> 为这句命令建立一个别名，之后就可以通过别名来使用相关操作。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163eff30cd98f018?w=1216&amp;h=220&amp;f=png&amp;s=49918" alt="" /></p>
+
+<p>再另一种方式，我们可以使用<code class="highlighter-rouge">po unsafeBitCast(&lt;pstr&gt; , UnsafePointer.self)</code>命令打印对象描述、中心点坐标，当然也可以设置相关属性。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 打印对象
+(lldb) po unsafeBitCast(0x7fe439d13160, UILabel.self)
+&lt;UILabel: 0x7fe439d13160; frame = (57 141; 42 21); text = 'Label'; opaque = NO; autoresize = RM+BM; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x600003942a30&gt;&gt;
+
+// 打印中心点坐标
+(lldb) po unsafeBitCast(0x7fe439d13160, UILabel.self).center
+▿ (78.0, 151.5)
+- x : 78.0
+- y : 151.5
+
+// 设置中心点坐标
+(lldb) po unsafeBitCast(0x7fe439d13160, UILabel.self).center.y = 300
+</code></pre></div></div>
+
+<h3 id="29-利用-expression-catransactionflush-命令刷新页面flush-view-changes-to-the-screen-using-expression-catransactionflush">2.9 利用 “expression CATransaction.flush()” 命令刷新页面（Flush view changes to the screen using “expression CATransaction.flush()”）</h3>
+
+<p>你可以在控制台通过 LLDB 调试器中改变 UI 的坐标值，但你并不能立即看到页面有任何改变。事实上你确实修改了它的值，你只是需要使用<code class="highlighter-rouge">“expression CATransaction.flush()”</code>来刷新一下你的页面。</p>
+
+<p>配合修改 UI 坐标值的命令一起使用，你能看到你的模拟器正在发生令人振奋的一幕。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 修改坐标点
+po unsafeBitCast(0x7fe439d13160, UILabel.self).center.y = 300
+// 刷新页面
+expression CATransaction.flush()
+</code></pre></div></div>
+
+<h3 id="210-利用别名和脚本添加自定义-lldb-命令add-custom-lldb-commands-using-aliases-and-scripts">2.10 利用别名和脚本添加自定义 LLDB 命令（Add custom LLDB commands using aliases and scripts）</h3>
+
+<p>当你对 LLDB 命令越来越了解，操作越来越骚的时候，你会发现小小的控制台会限制你的发挥，这个时候你需要一个更大的舞台。</p>
+
+<p>现在我要展示如何使用 Python 脚本执行命令，你需要先下载一 个<a href="https://developer.apple.com/sample-code/wwdc/2018/UseScriptsToAddCustomCommandsToLLDB.zip">nudge.py</a> ，这是苹果开发工程师为我们准备好的 Python 脚本，它可以帮助我们简单、快速地移动 UI 控件。我们需要将 <a href="https://developer.apple.com/sample-code/wwdc/2018/UseScriptsToAddCustomCommandsToLLDB.zip">nudge.py</a> 文件放入你的用户根目录<code class="highlighter-rouge">~/nudge.py</code>。</p>
+
+<p>下一步我们需要在用户根目录下新建一个<code class="highlighter-rouge">~/.lldbinit</code>文件，并加入下方命令和别名：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>command script import ~/nudge.py
+command alias poc expression -l objc -O --
+command alias 🚽 expression -l objc -- (void)[CATransaction flush]
+</code></pre></div></div>
+
+<p>做完这些，我们就可以来使用我们的自定义命令<code class="highlighter-rouge">nudge x-offset y-offset [view]</code>了，具体用法如下：</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 引用 nudge
+(lldb) command script import ~/nudge.py
+The "nudge" command has been installed, type "help nudge" for detailed help.
+
+// 拿到对象指针
+(lldb) po myLabel
+▿ Optional&lt;UILabel&gt;
+- some : &lt;UILabel: 0x7fc04a60fff0; frame = (57 141; 42 21); text = 'Label'; opaque = NO; autoresize = RM+BM; userInteractionEnabled = NO; layer = &lt;_UILabelLayer: 0x600001d36c10&gt;&gt;
+
+// Y轴向上偏移5
+(lldb) nudge 0 -5 0x7fc04a60fff0
+</code></pre></div></div>
+
+<p>调整模拟器中控件位置的效果：</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f2c28cf4b078e?w=1000&amp;h=570&amp;f=gif&amp;s=4115526" alt="" /></p>
+
+<h3 id="211-lldb-打印命令lldb-print-commands">2.11 LLDB 打印命令（LLDB Print Commands）</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Command</th>
+      <th>Alias For</th>
+      <th>Steps TO Evaluate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>po <code class="highlighter-rouge">&lt;expression&gt;</code></td>
+      <td>expression –object-description – <code class="highlighter-rouge">&lt;expression&gt;</code></td>
+      <td>1. Expression: evaluate <expression><br />2. Expression: debug description</expression></td>
+    </tr>
+    <tr>
+      <td>p <expression></expression></td>
+      <td>expression – <expression></expression></td>
+      <td>1. Expression: evaluate <expression><br />2. Outputs LLDB-formatted description</expression></td>
+    </tr>
+    <tr>
+      <td>frame variable <name></name></td>
+      <td>none</td>
+      <td>1. Reads value of <name> from memory<br />2. Outputs LLDB-formatted description</name></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>p 和 po 命令从别名和执行过程上来看，分别输出的是对象和 LLDB 格式数据。</p>
+
+<p>而 frame variable 不同之处的是从当前 frame 调用栈的内存中拿到的值。只接受变量作为参数，不接受表达式。通过<code class="highlighter-rouge">frame variable</code>命令，可以打印出当前 frame 调用栈的的所有变量。</p>
+
+<h2 id="三深入了解-xcode-视图调试技巧advanced-view-debugging">三、深入了解 Xcode 视图调试技巧（Advanced View Debugging）</h2>
+
+<h3 id="31-在调试导航栏中快速定位到视图位置reveal-in-debug-navigator">3.1 在调试导航栏中快速定位到视图位置（Reveal in Debug Navigator）</h3>
+
+<p>在开发中我们会频繁使用到 Debug View Hierarchy 查看当前页面视图结构，正常情况下导航栏的 UI 嵌套层级会非常多，让我们无法快速准确找到我们想查看的控件所在的层级。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f30b7fe3731b4?w=784&amp;h=122&amp;f=png&amp;s=24544" alt="" /></p>
+
+<p>其实 Xcode 已经有快捷方式可以让你快速定位到控件在导航栏中的位置，首先点击选中你需要查看的控件，然后再导航栏中的 navigate 选项，展开后选择 Reveal in Debug Navigator ，如下图：</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f3216c6b8b33b?w=850&amp;h=840&amp;f=png&amp;s=204145" alt="" /></p>
+
+<h3 id="32-显示被裁剪的视图内容view-clipped-content">3.2 显示被裁剪的视图内容（View clipped content）</h3>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f335462f645a6?w=1008&amp;h=503&amp;f=png&amp;s=57285" alt="" /></p>
+
+<p>当我们遇到这样一个显示不全的 bug 的时候，我们可以用到 Debug View Hierarchy 查看当前视图具体情况，进入调试页面你会看到下面这种情况：</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f35c33f771593?w=594&amp;h=226&amp;f=png&amp;s=17383" alt="" /></p>
+
+<p>我想我的 label 应该是完整的，但是超出页面被裁剪掉了，这个时候我需要确认一下事实是不是和我想的一样。如下图，我们需要开启 Show Clipped Content 选项。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f361387b25659?w=534&amp;h=116&amp;f=png&amp;s=21813" alt="" /></p>
+
+<p>最后我看到了真相和我猜测的是一致的，我可以根据真实情况准确制定出解决方案。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f3604d13e73fb?w=826&amp;h=250&amp;f=png&amp;s=24502" alt="" /></p>
+
+<h3 id="33-在调试中查看自动布局信息auto-layout-debugging">3.3 在调试中查看自动布局信息（Auto Layout debugging）</h3>
+
+<p>在调试 Debug View Hierarchy 中查看控件的约束只需要启动 Show Constraints 选项，选中任何一个控件都会显示出其拥有的约束。
+<img src="https://user-gold-cdn.xitu.io/2018/6/12/163f458f116c11ab?w=578&amp;h=122&amp;f=png&amp;s=22937" alt="" /></p>
+
+<p>选中约束后可以在右边栏对象检查器 Object Inspector 中查看约束的详细信息。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f4722a1f8963c?w=1256&amp;h=788&amp;f=png&amp;s=127578" alt="" /></p>
+
+<h3 id="34-在调试检查器中显示调用栈creation-backtraces-in-the-inspector">3.4 在调试检查器中显示调用栈（Creation backtraces in the inspector）</h3>
+
+<p>在调试模式下，我们有办法看到每一个控件，每一个约束的创建调用栈，方便我们快速定位到问题的源头。举个例子，我手动为我的 label 对顶部距离 100 的约束。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>let myLabelTopConstraint =  myLabel.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 100)
+NSLayoutConstraint.activate([myLabelTopConstraint])
+</code></pre></div></div>
+
+<p>运行 Demo 后开启 Debug View Hierarchy ，开启显示约束选项后，你可以找到这个约束并选中，在右边栏的对象检查器的 Backtrace 一栏你可以看到一个调用栈的列表。如下图，点击右边小箭头可以跳转到创建该对象的代码处。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f496d9b8c92c7?w=934&amp;h=676&amp;f=png&amp;s=135279" alt="" /></p>
+
+<p>这项功能是需要手动开启的，你可以通过点击项目 Target -&gt; Edit Scheme… -&gt; Run -&gt; Diagnostics -&gt; Logging -&gt; 勾选 Malloc Stack 并且切换至 All Allocation and Free History 模式开启此功能。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/12/163f49e36ca19eb8?w=1766&amp;h=984&amp;f=png&amp;s=206276" alt="" /></p>
+
+<h3 id="35-获取对象指针及其拓展access-object-pointers-copy-casted-expressions-">3.5 获取对象指针及其拓展（Access object pointers (copy casted expressions) ）</h3>
+
+<p>在视图调试模式中，我们有时候也会需要在 LLDB 调试器中输入表达式来达到修改控件位置的的效果。</p>
+
+<p>举例我们要修改一个约束的值，我们首先要拿到这个约束对象的指针，好消息是 Xcode 可以非常方便让我们拿到，选中该约束，直接快捷键 ⌘ + c 就复制好了，可以直接复制到控制台中使用。</p>
+
+<p>你可以输出该约束的描述信息，和右边栏检查器中的 Description 是一样的效果。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// po + 复制好的指针
+po ((NSLayoutConstraint *)0x600000dd4460)
+
+// 输出结果
+&lt;NSLayoutConstraint:0x600000dd4460 UILabel:0x7fdb1c70a710'WWDC 2018：效率提升爆表的 Xcode 和...'.top == UIView:0x7fdb1c70b950.top + 100   (active)&gt;
+</code></pre></div></div>
+
+<p>也许你还需要复习一下之前的内容，来修改一下约束的值，并且刷新页面，完成这些后赶紧看看模拟器的效果。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 设置约束的值为 200
+(lldb) e [((NSLayoutConstraint *)0x600000dd4460) setConstant:200]
+
+// 刷新 UI
+// 🚽 是 expression -l objc -- (void)[CATransaction flush] 命令的别名
+(lldb) 🚽 
+</code></pre></div></div>
+
+<h3 id="36-利用快捷键--click-选中被遮挡的视图--click-through-for-selection">3.6 利用快捷键 ⌘-click 选中被遮挡的视图 （⌘-click-through for selection）</h3>
+
+<p>在调试中，你要选择的视图被另一个视图遮挡住的情况下，你可以通过 3D 的查看模式，选中后背的视图，如下图。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/13/163f4d575965b2bc?w=964&amp;h=732&amp;f=png&amp;s=59820" alt="" /></p>
+
+<p>但是这种方式实在难称优雅，况且还有一些刁钻的角度会让你非常头疼。在 2D 的情况下，正确的选中方式应该是 ⌘-click 直接选中背后被遮挡的视图，快去试试看吧。</p>
+
+<h2 id="四调试深色模式debugging-dark-mode">四、调试深色模式（Debugging Dark Mode）</h2>
+
+<h3 id="41-切换深色模式appearance-overrides">4.1 切换深色模式（Appearance overrides）</h3>
+
+<p>在 macOS 10.14 版本下并且安装了 Xcode 10 ，你就可以在开发中使用 Dark Mode 了，你可以在 Xcode 底部的找到一个黑白两色小方块按钮，通过选中这个按钮，你可以切换模拟器 Dark 和 Light 两种外观。如果你的 Macbook 有 Touch Bar 的话，你也可以通过 Touch Bar 上的按钮来切换。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/13/163f83586e06d7b7?w=3042&amp;h=1934&amp;f=png&amp;s=438896" alt="" /></p>
+
+<p>在 StoryBoard 中你可以在底部找到 View as : Light/Dark Appearance 来预览 Dark 和 Light 外观。</p>
+
+<p>macOS 开发中选中任意一个 View ，你都可以在右边栏的检查器中找到 Appearance 属性，通过这个属性你可以为这个 View 及其子视图设置固定的外观颜色，且不会随着用户切换 Dark 和 Light 外观而改变颜色。</p>
+
+<h3 id="42-捕获活动的-mac-appcapturing-active-mac-apps">4.2 捕获活动的 Mac app（Capturing active Mac apps）</h3>
+
+<p>我们的 UI Hirerachey 同时只能显示一个 UIWindow 的内容，所有在调试的时候，弹出的 UIWindow 并不会和页面内的 UI 结构一起展示给我们，像 UIAlertView 这种弹出 UIWindow 就无法一起显示。</p>
+
+<p>如果我们需要查看弹出 UIWindow ， 我们需要把左边栏当前的文件结构全部关闭收起，这个时候你会看到 ViewController 所在的 UIWindow 下面还有另外一个 UIWindow ，选中之后就可以查看弹出的 UIWindow 的 UI 层级结构了。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/13/163f915e8ce2552a?w=534&amp;h=560&amp;f=png&amp;s=78538" alt="" /></p>
+
+<h3 id="43-在检查器中查看深色模式信息named-colors-and-nsappearance-details-in-inspector">4.3 在检查器中查看深色模式信息（Named colors and NSAppearance details in inspector）</h3>
+
+<p>在 UI Hierarchy 调试中我们可以在右边栏的检查器中查看 Dark Mode 相关信息，选中一个 UILabel 可以查看该 label 的 Text Color 属性。在 Dark Mode 下一共有 3 中类型颜色：</p>
+
+<ul>
+  <li><strong>System Color</strong>：
+系统推荐颜色 System Color ，可以根据当前外观颜色自适应文字颜色。</li>
+  <li><strong>Named Color</strong>：Named Color 需要开发者在 assets catalog 中设置，可以针对 Dark Light 设置不同色值。</li>
+  <li><strong>自定义 RGB 颜色</strong>：纯手动设置的自定义 RGB 固定色值。</li>
+</ul>
+
+<p>下图中的 Text Color 就是在 assets catalog 中设置的 Named Color ，设置的名字为 titleColor，你可以根据场景为该设置设置合适的名字。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/13/163f917da2497371?w=1452&amp;h=808&amp;f=png&amp;s=96770" alt="" /></p>
+
+<p>如下图，检查器偏下的位置 View 一栏中，我们可以找到 Appearance 和 Effective 属性，Appearance 是表示该视图下子视图无法切换的固定的外观颜色选择，Effective 是当前生效的外观颜色。</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/13/163f917fb6dcbd69?w=506&amp;h=580&amp;f=png&amp;s=48918" alt="" /></p>
+
+<p>在  assets catalog 中设置 Named Color：</p>
+
+<p><img src="https://user-gold-cdn.xitu.io/2018/6/13/163f9bdd09e5707c?w=1360&amp;h=782&amp;f=png&amp;s=197698" alt="" /></p>
+
+<h2 id="总结">总结</h2>
+
+<p>功能强大的 LLDB ，特别是配合 BreakPoint 一起使用，让我们有了更多的想象空间，加上越来越好用的 UI Hirerachey ，让我们的调试手段更加灵活。 这些内容虽然需要花一些时间去了解，但我相信掌握这些技巧将会为你节省下更多的时间。</p>
+
+<p>从此你再也不用为下班前测出 bug 而焦虑了，早用上，早收工，最多干到下午 3 点钟。希望本文内容对每一位读者有所帮助。</p>
+
+<h2 id="参考链接">参考链接</h2>
+
+<ul>
+  <li>视频地址：<a href="https://developer.apple.com/videos/play/wwdc2018/412">WWDC 2018 Session 412 - Advanced Debugging with Xcode and LLDB</a></li>
+  <li>PDF地址：<a href="https://devstreaming-cdn.apple.com/videos/wwdc/2018/412zw88j5aa4mr9/412/412_advanced_debugging_with_xcode_and_lldb.pdf?dl=1">WWDC 2018 Session 412 - Advanced Debugging with Xcode and LLDB</a></li>
+</ul>
+
+<blockquote>
+  <p>查看更多 WWDC 18 相关文章请前往 <a href="https://juejin.im/post/5b1d284df265da6e572b3d87">老司机x知识小集xSwiftGG WWDC 18 专题目录</a></p>
+</blockquote>
+
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2018/12/TestingTutorial/" title="link to iOS 单元测试和 UI 测试快速入门">iOS 单元测试和 UI 测试快速入门</a></h2>
+       <p class="excerpt">前言平时写完业务代码的时候都会去自己测试一遍，后面每次有修改都需要重复测，不管是一个业务流程还是一个工具类，其实都可以通过测试框架来帮助我们完成测试，特别是一些频繁修改的代码，更需要严谨的测试。在浅浅地对自动化测试有一些了解时，觉得写测试代码挺耗时间，但其实对后期的帮助是非常大的，可以根据自己的实际情况来决定哪些地方需要加入自动化测试。本文内容适合刚接触 iOS 自动化测试的同学，基本内容来自于各年 WWDC 的多个 Sessions，本文代码部分基于我的一个学习 Demo，喜欢的可以了解...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2018-12-20 10:40:11 +0800" class="post-list__meta--date date">2018-12-20</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2018/12/TestingTutorial/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2018/06/Auto-Layout-Techniques-in-Interface-Builder/" title="link to WWDC 2017：高级开发应该掌握的自动布局技巧">WWDC 2017：高级开发应该掌握的自动布局技巧</a></h2>
+       <p class="excerpt">  构建 app 时使用的自动布局技术，其实就是建立视图与视图之间关系。而约束是建立视图间关系的纽带，帮助我们的 app 可以适应各种尺寸的屏幕，在应对花样百出的布局需求时游刃有余。本文已收录至 iOS 成长之路3期·WWDC17内参前言如果你以前从未使用过Autolayout，现在网上已经有很多很优秀的教程，包括往届 WWDC 中 sessions 视频资源都可供查看学习。在本文中将不再重复基本的使用方法，更多的去介绍一些更加复杂的场景中的应用，本文中技术结合实例使你更容易理解吸收。让我...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2018-06-14 10:40:11 +0800" class="post-list__meta--date date">2018-06-14</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2018/06/Auto-Layout-Techniques-in-Interface-Builder/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+   
+    <div id="gitalk-container"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'a7e3bcc8c313f6fcf2cf',
+        clientSecret: '1d7f990ff0250384dea6b037ce7d6e455d84d472',
+        repo: 'xietao3.github.io',
+        owner: 'xietao3',
+        admin: ['xietao3'],
+        id: 'BlogComment',
+        distractionFreeMode: true
+      });
+      gitalk.render('gitalk-container');
+
+    </script>
+
+  
+
+
+
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">本站由 <a href="http://xietao3.com/about">xietao3</a> 
+        创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

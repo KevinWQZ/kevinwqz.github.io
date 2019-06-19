@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+
+  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="baidu-site-verification" content="vuqzu4486i" />
+  <meta name="baidu-site-verification" content="yR54QJzaFG" />
+  <title>数据科学入门 (一) —— 数据</title>
+  <meta name="description" content="">
+  <meta name="author" content="xie tao">
+
+<!--   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="数据科学入门 (一) —— 数据">
+  <meta name="twitter:description" content=""> -->
+  
+<!--   <meta property="og:type" content="article">
+  <meta property="og:title" content="数据科学入门 (一) —— 数据">
+  <meta property="og:description" content=""> -->
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.ico" />
+  <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/10/BigData1/">
+  <link rel="alternate" type="application/rss+xml" title="wangquanzhen" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?df0994aacf7a4c9779a5632908de3196";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="wangquanzhen logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button">wangquanzhen</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">探索之旅，学习之路</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">你好，我是王权振！欢迎来到我的个人主页.</br>90后代码搬运工，</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="进入博客" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="/about/index.html" target="_blank" title="了解更多关于我">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+  
+    <a href="http://weibo.com/u/2803559240" title="xietao3 的微博" target="_blank">
+    <!-- <a href="http://weibo.com/xietao3" title="xietao3 的微博" target="_blank"> -->
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/xietao3" title="xietao3 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  
+   <!-- CSDN -->
+  <li class="navigation__item">
+    <a href="http://blog.csdn.net/xietao3" title="xietao3 的 CSDN" target="_blank">
+      <img src="/assets/images/csdn.png" width="20" height="20" />
+      <!-- <i class='social fa fa-edit'></i> -->
+      <span class="label">csdn</span>
+    </a>
+  </li>
+  
+
+  <!-- RSS -->
+<!--   <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li> -->
+
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-orange"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-10-23 19:40:11 +0800" itemprop="datePublished" class="post-meta__date date">2017-10-23</time> &#8226; <span class="post-meta__tags tags"></span>
+    </div>
+    <h1 class="post-title">数据科学入门 (一) —— 数据</h1>
+  </header>
+
+  <section class="post">
+    <p><img src="http://upload-images.jianshu.io/upload_images/1319710-f74fe2a0f8d7d48f.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片来自网络" /></p>
+
+<blockquote>
+  <p>Data Scientists - The Sexiest Job of the 21st Century。</p>
+</blockquote>
+
+<h2 id="背景">背景</h2>
+
+<p>这是我们公司内部的学习兴趣班课程，并加以总结，加深巩固学习效果。</p>
+
+<h2 id="一什么是数据科学">一、什么是数据科学</h2>
+
+<h4 id="11-数据科学">1.1 数据科学</h4>
+
+<p>数据科学（英语：Data Science），是一门利用数据学习知识的学科，其目标是通过从数据中提取出有价值的部分来生产数据产品。它结合了诸多领域中的理论和技术，包括应用数学，统计，模式识别，机器学习，数据可视化，数据仓库，以及高性能计算。数据科学通过用运用各种相关的数据来帮助非专业人士理解问题。 数据科学技术可以帮助我们如何正确的处理数据的并协助我们在生物，社会科学，人类学等领域进行研究调研。此外，数据科学也对商业竞争有极大的帮助。</p>
+
+<p>数据科学的组成要素可以从下面这个维恩图得到线索。它包括了计算机技巧，数学和统计知识，实质性的专业知识。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-7ae64cd93f73122b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="数据科学" /></p>
+
+<p>你不一定要拥有计算机科学的学历，但数据是电子化交易的商品，所以你需要了解一些开发技能。这些技能包括：Linux 知识，能够操纵文本文件的命令行，了解矢量操作，算法的思想，这些技巧都是数据极客所需要的。</p>
+
+<p>一旦你已经获得并清理好数据，下一步就是从中提取有用的知识。此时你需要运用适当的数学和统计方法。这并不是说你要成为统计学博士，但你确实需要知道普通最小二乘回归之类的东西，以及如何解释其结果。</p>
+
+<p>在第三个关键是专业领域的知识背景。如果数据分析只是你的业余爱好，那么只捣鼓数学、机器学习和统计数据也就够了。但如果你从事数据科学的工作，这就要求从专业背景上提出问题，并用数据和统计方法进行检验，这样才能真正的发现并构建知识。</p>
+
+<p>最后，要注意的是黑客技能加专业知识的危险区。这里所描述的是那些“半桶水专家”，他们知道如何得到合适的数据，甚至掌握如何用R语言进行线性回归并报告系数，但他们不理解那些系数的真正含义。在不了解内在统计意义时进行数据分析是危险的，这也是数据分析经常被滥用情况。</p>
+
+<h4 id="12-数据科学家">1.2 数据科学家</h4>
+
+<p>数据科学家是一名负责收集，分析和解读大量数据的专业人士，以确定帮助业务改善运营并获得竞争对手竞争优势的方法。
+数据科学家的角色是统计学家角色的分支，包括使用先进的分析技术，包括机器学习和预测建模 ，提供超越统计分析的见解。 数据科学技能的需求近年来有显着增长，因为企业希望通过大量企业生产和收集的大量结构化， 非结构化和半结构化数据（统称为大数据）来收集有用的信息。</p>
+
+<h4 id="13-数据科学家需要的特质">1.3 数据科学家需要的特质</h4>
+
+<ul>
+  <li>
+    <p><strong>好奇心</strong> — 数据科学家倾向于用探索数据的方式来看待周围的世界。</p>
+  </li>
+  <li>
+    <p><strong>问题分体整理能力</strong> — 把大量散乱的数据变成结构化的可供分析的数据，还要找出丰富的数据源，整合其他可能不完整的数据源，并清理成结果数据集。</p>
+  </li>
+  <li>
+    <p><strong>快速学习能力</strong> — 新的竞争环境中，挑战不断地变化，新数据不断地流入，数据科学家需要帮助决策者穿梭于各种分析，从临时数据分析到持续的数据交互分析。</p>
+  </li>
+  <li>
+    <p><strong>问题转化能力</strong> — 数据科学家会遇到技术瓶颈，但他们能够找到新颖的解决方案。</p>
+  </li>
+  <li>
+    <p><strong>业务精通</strong> — 当他们有所发现，便交流他们的发现，建议新的业务方向。</p>
+  </li>
+  <li>
+    <p><strong>表现沟通能力</strong> — 他们很有创造力的展示视觉化的信息，也让找到的模式清晰而有说服力。</p>
+  </li>
+</ul>
+
+<p>总体来说，能拿到数据的能力，能理解数据、处理数据、从中抽取价值、可视化数据并能和别人交流结果，将会是下一个十年里极度重要的技能。</p>
+
+<h2 id="二-数据里的科学">二、 数据里的科学</h2>
+
+<h4 id="21-什么是数据">2.1 什么是数据？</h4>
+
+<p>数据是我们对我们所处的世界的描述，除了我们最常见数字之外，包括文字、图片、语音和视频都是各种类型的数据。</p>
+
+<h4 id="22-为什么要使用数据">2.2 为什么要使用数据？</h4>
+
+<p>计算机世界里的数据是由一串串二进制的数字构成，对我们来说他们只是一堆冰冷的数据，并不能告诉我们任何信息。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-e065d51067bc6ccd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="数据" /></p>
+
+<p><strong>数据</strong>：就如同下方一组温度数据，在我不告诉你数据的上下文(context)之前，你也许会认为这是病人发高烧的体温记录。其实这些是一组鸭子的体温测量记录，全都在正常范围内。就如同上面所说的，数据在没有上下文的情况下，不能告诉我们任何信息。</p>
+
+<p>41.5℃|40.6℃|41.1℃|39.9℃|41.9℃|40.9℃|</p>
+<ul>
+  <li>|-|-|-|-|-</li>
+</ul>
+
+<p><strong>信息</strong>：信息泛指人类社会传播的一切内容。人通过获得、识别自然界和社会的不同信息来区别不同事物，得以认识和改造世界。信息与知识的不同之处在于，人每天都能收集到各种信息，但这些信息不一定真实可信，虚假信息明显不可能成为知识，只有得到社会公认的信息才能称之为知识，人们通过收集这些被公认的知识来构建自己的知识体系。</p>
+
+<p><strong>知识</strong>：通过自己的知识，我们能判断一些信息的真伪，举个栗子：路人甲告诉你明天的气温是200℃，这显然是不可信的；</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-d59e1c5813de4870.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/240" alt="" /></p>
+
+<p>再举个栗子：果蔬公司的领导说今年的业绩要同比提高50％，也许新员工一听这个业绩目标会被惊呆。可是在老员工的心里默默的算了一笔账，去年由于受自然灾害的影响，公司的业绩相比前年一落千丈，今年的雨水丰沛，也没有自然灾害影响，要达到这个目标并不难。老员工在基于自己果蔬行业的知识体系和去年是受灾减产这一上下文，得出与新员工截然相反的结论。</p>
+
+<p><strong>智慧</strong>：之前所说的数据、信息和知识都是已经发生或存在的，而智慧是挖掘藏在数据里面的信息，并且利用我们的知识体系对未知的事物进行预测，而这也是最值得期待的部分。</p>
+
+<h4 id="23-数据的测量尺度">2.3 数据的测量尺度</h4>
+
+<p>参考下方图表，定类和定序比较容易理解。而定距常见于摄氏度和公元纪年，你不能说21℃温度是10℃温度的2倍，你只能说21℃温度比10℃高11℃，只能表达他们的间距。而定比是可以说倍数的，金额、重量等数据都可以使用定比方式来测量。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>测量尺度</th>
+      <th>特点</th>
+      <th>可用的数学运算</th>
+      <th>例子</th>
+      <th>展示方式</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>定类数据(nominal scale)</td>
+      <td>分类型的，大家无高低贵贱之分</td>
+      <td>=, !=</td>
+      <td>性别、商品类别、配送方式</td>
+      <td>直方图、饼图、柱图、雷达图</td>
+    </tr>
+    <tr>
+      <td>定序数据(ordinal scale)</td>
+      <td>可比较，有层级了</td>
+      <td>=, !=, &gt;, &lt;</td>
+      <td>商品评分、配送评分、用户等级</td>
+      <td>箱线图</td>
+    </tr>
+    <tr>
+      <td>定距数据(interval scale)</td>
+      <td>间隔一致，无绝对0点</td>
+      <td>=, !=, &gt;, &lt;, +, -</td>
+      <td>摄氏温度、公元纪年</td>
+      <td>线图</td>
+    </tr>
+    <tr>
+      <td>定比数据(ratio scale)</td>
+      <td>有绝对0点，可以说几倍数</td>
+      <td>=, !=, &gt;, &lt;, +, -, ×, ÷</td>
+      <td>开尔文温度、重量、金额</td>
+      <td>很多 ……</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="24-数据的时间维度">2.4 数据的时间维度</h4>
+
+<p>针对不同分析需求，数据通常可以分两个时间维度进行分析：</p>
+
+<ul>
+  <li>时间截面：在某一个时间点，用户的订单单数据。</li>
+  <li>时间序列：某一个用户，最近一年的订单数据。</li>
+</ul>
+
+<h4 id="25-数据的集中趋势和离散程度">2.5 数据的集中趋势和离散程度</h4>
+
+<ul>
+  <li>众数：出现次数最多数</li>
+  <li>中位数：排序后处于中间位置的数</li>
+  <li>均值：所有数平均值</li>
+  <li>方差：所有值与平均数的差的平方的总和除以值的个数</li>
+  <li>标准差：方差的平方根</li>
+</ul>
+
+<p>下面这一组数据众数为<code class="highlighter-rouge">225</code>，中位数为<code class="highlighter-rouge">225</code>，均值为<code class="highlighter-rouge">225.10</code>，标准差为<code class="highlighter-rouge">21.07</code>。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>225, 232, 232, 245, 235, 245, 270, 225, 240, 243,
+217, 195, 225, 185, 200, 198, 197, 210, 271, 240,
+220, 230, 215, 252, 225, 220, 206, 192, 227, 236
+</code></pre></div></div>
+
+<h4 id="25-数据的分布">2.5 数据的分布</h4>
+
+<ul>
+  <li><strong>正态分布</strong> 具有集中性 ，正态曲线的高峰位于正中央，即均数所在的位置，像人的身高和体重数据都符合正态分布曲线，越接近平均身高时人数越多。</li>
+</ul>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-e898048d24bb5eec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="正态分布" /></p>
+
+<ul>
+  <li><strong>幂分布</strong> 19世纪的意大利经济学家Pareto研究了个人收入的统计分布，发现少数人的收入要远多于大多数人的收入，提出了著名的80/20 法则，即20%的人口占据了80%的社会财富。该数据即符合幂分布。</li>
+</ul>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-c19988a71c0647fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="幂分布" /></p>
+
+<ul>
+  <li><strong>指数分布</strong> 的图形表面上看与幂律分布很相似，实际两者有极大不同，指数分布的收敛速度远快过幂律分布。指数分布是一种连续概率分布。指数分布可以用来表示独立随机事件发生的时间间隔，比如旅客进机场的时间间隔。</li>
+</ul>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-4e468c77696576b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="指数分布" /></p>
+
+<h2 id="三数据分析">三、数据分析</h2>
+
+<h4 id="31-还原数据背后的真实">3.1 还原数据背后的真实</h4>
+
+<ul>
+  <li>
+    <p>元数据 —— 有场景上下文吗？</p>
+  </li>
+  <li>
+    <p>数据缺失 —— 收集到了吗？收集到的数据完整吗？</p>
+  </li>
+  <li>
+    <p>数据异常 —— 根据的的知识来判断，数据收集对了吗？</p>
+  </li>
+  <li>
+    <p>是你想要的吗？</p>
+  </li>
+</ul>
+
+<h4 id="31-设定数据分析步骤">3.1 设定数据分析步骤</h4>
+
+<p>a. 设定一个分析目标：分析近6个月的工作质量。
+b. 影响该目标的指标：任务数量，任务难度，任务成功率。
+c. 分析每项指标类型： 任务数量为定比类型，难度为定序类型，成功率为定比类型。
+d. 找到指标影响目标的公式：任务数量 * 任务难度 * 任务成功率。
+e. 验证你得到的结果。</p>
+
+<h2 id="四展示数据">四、展示数据</h2>
+
+<h4 id="41-错误示范">4.1 错误示范</h4>
+
+<ol>
+  <li>用户对我们物流小哥的评价平均是4.57。</li>
+  <li>上海人民最幸福，家庭平均月收入是50000元。</li>
+  <li>育才中学的小明成绩全市第一，所以育才中学教学质量非常好。</li>
+</ol>
+
+<h4 id="42-正确示范">4.2 正确示范</h4>
+
+<ol>
+  <li>用户对我们物流小哥的评价次数最多的是5分，占比81%。</li>
+  <li>上海人民最幸福，所有家庭月收入中位数是9200元，众数是9000。</li>
+  <li>育才中学的学生平均成绩全市第一，所以育才中学教学质量非常好。</li>
+</ol>
+
+<h2 id="小结">小结</h2>
+
+<p>在这门课程中，需要学习的不仅仅是理论知识，还有思维转变，从“我觉得”或“我猜测“到“基于以上论证，我判断”的转变。</p>
+
+<p>后面有时间会继续写点深入的知识点🙏。</p>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2018/01/XTImageDownloader/" title="link to Python 萌新 - 实现 Markdown 图片下载器">Python 萌新 - 实现 Markdown 图片下载器</a></h2>
+       <p class="excerpt">  简书支持打包下载所有文章功能，可以方便作者转移或保存。但是图片不支持自动下载，最近在学Python，便写了一个md图片下载器。目标本人 Python 新手，欢迎大佬指点。本文主要是对源码进行解读，期望实现以下目标：  一键下载所有Markdown文件中的图片，并保存到本地。  图片根据文章分类  简单易用。先上最终效果:实现步骤  搜索指定文件夹，找出文件夹及子文件包含的md文件。  匹配出md文件中所有的图片。  所有图片异步下载。  下载报告与GUI。  Python 打包工具。1...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2018-01-19 23:40:11 +0800" class="post-list__meta--date date">2018-01-19</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2018/01/XTImageDownloader/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2017/09/Deadlock/" title="link to 你不知道的的 iOS 多线程">你不知道的的 iOS 多线程</a></h2>
+       <p class="excerpt">  程序员用有限的生命去追求无限的知识。有言在先首先我不是故意要做标题党的，也不是我要炒冷饭，我只是想换个姿势看多线程，本文大部分内容在分析如何造死锁，奈何功力尚浅，然而再浅，也需要走出第一步。打开你的 Xcode 来验证这些死锁吧。多线程小知识以下是实现多线程的三种方式：  NSThread  GCD  NSOperationQueue关于具体使用的方法不再具体介绍，让我们来看看他们不为人知的一面1. 锁的背后NSLock是基于 POSIX threads 实现的，而 POSIX thr...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2017-09-19 23:40:11 +0800" class="post-list__meta--date date">2017-09-19</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2017/09/Deadlock/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+   
+    <div id="gitalk-container"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'a7e3bcc8c313f6fcf2cf',
+        clientSecret: '1d7f990ff0250384dea6b037ce7d6e455d84d472',
+        repo: 'xietao3.github.io',
+        owner: 'xietao3',
+        admin: ['xietao3'],
+        id: 'BlogComment',
+        distractionFreeMode: true
+      });
+      gitalk.render('gitalk-container');
+
+    </script>
+
+  
+
+
+
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">本站由 <a href="http://xietao3.com/about">xietao3</a> 
+        创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

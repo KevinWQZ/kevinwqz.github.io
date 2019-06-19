@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+
+  
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="baidu-site-verification" content="vuqzu4486i" />
+  <meta name="baidu-site-verification" content="yR54QJzaFG" />
+  <title>包教包会-弹性动画的原理与实现</title>
+  <meta name="description" content="">
+  <meta name="author" content="xie tao">
+
+<!--   <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="包教包会-弹性动画的原理与实现">
+  <meta name="twitter:description" content=""> -->
+  
+<!--   <meta property="og:type" content="article">
+  <meta property="og:title" content="包教包会-弹性动画的原理与实现">
+  <meta property="og:description" content=""> -->
+  
+  <link rel="icon" type="image/png" href="/assets/images/favicon.ico" />
+  <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/png">
+  
+  <link rel="stylesheet" href="/css/main.css">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="canonical" href="http://localhost:4000/2017/06/SpringAnimation/">
+  <link rel="alternate" type="application/rss+xml" title="wangquanzhen" href="http://localhost:4000/feed.xml">
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+
+  <meta name="google-site-verification" content="1-1ZlHoRvM0T2FqPbW2S-qLgYXN6rsn52kErlMPd_gw" />
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?df0994aacf7a4c9779a5632908de3196";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  
+</head>
+
+
+  <body>
+
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+    
+    <header class="panel-cover panel-cover--collapsed" style="background-image: url('/assets/images/background-cover.jpg')">
+  <div class="panel-main">
+
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button"><img src="/assets/images/avatar.jpg" width="80" alt="wangquanzhen logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/#blog" title="前往 wangquanzhen 的主页" class="blog-button">wangquanzhen</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">探索之旅，学习之路</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">你好，我是王权振！欢迎来到我的个人主页.</br>90后代码搬运工，</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+        
+        
+        
+        <div class="navigation-wrapper">
+          <div>
+            <nav class="cover-navigation cover-navigation--primary">
+              <ul class="navigation">
+                <li class="navigation__item"><a href="/#blog" title="进入博客" class="blog-button">博客</a></li>
+                
+                  <li class="navigation__item"><a href="/about/index.html" target="_blank" title="了解更多关于我">关于</a></li>
+                
+              </ul>
+            </nav>
+          </div>
+          
+          <div><nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  
+  <!-- Weibo -->
+  <li class="navigation__item">
+  
+    <a href="http://weibo.com/u/2803559240" title="xietao3 的微博" target="_blank">
+    <!-- <a href="http://weibo.com/xietao3" title="xietao3 的微博" target="_blank"> -->
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li>
+  
+
+  
+  <!-- Github -->
+  <li class="navigation__item">
+    <a href="https://github.com/xietao3" title="xietao3 的 Github" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+  
+  
+  
+
+  
+
+  
+   <!-- CSDN -->
+  <li class="navigation__item">
+    <a href="http://blog.csdn.net/xietao3" title="xietao3 的 CSDN" target="_blank">
+      <img src="/assets/images/csdn.png" width="20" height="20" />
+      <!-- <i class='social fa fa-edit'></i> -->
+      <span class="label">csdn</span>
+    </a>
+  </li>
+  
+
+  <!-- RSS -->
+<!--   <li class="navigation__item">
+    <a href="/feed.xml" rel="author" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li> -->
+
+  
+
+  </ul>
+</nav>
+</div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <div class="panel-cover--overlay cover-orange"></div>
+    
+  </div>
+</header>
+
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2017-06-01 18:58:24 +0800" itemprop="datePublished" class="post-meta__date date">2017-06-01</time> &#8226; <span class="post-meta__tags tags"></span>
+    </div>
+    <h1 class="post-title">包教包会-弹性动画的原理与实现</h1>
+  </header>
+
+  <section class="post">
+    <p><img src="http://upload-images.jianshu.io/upload_images/1319710-9a26ccb3e9d384cc.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="bounce" /></p>
+
+<blockquote>
+  <p>弹性动画一直以来都深深地吸引我，随着知识储备增多，渐渐探索出一套弹性动画的实现原理。</p>
+</blockquote>
+
+<h1 id="简介">简介</h1>
+<p>本文将从零开始，一步步解析弹性动画原理，包教包会。<a href="https://github.com/xietao3/SpringAnimationDemo2">本文Demo</a>简单地封装了一个动画库来测试，支持<code class="highlighter-rouge">UIView</code>的三种动画类型：<code class="highlighter-rouge">Size</code>、<code class="highlighter-rouge">Position</code>、<code class="highlighter-rouge">Scale</code>，动画运动曲线有：<code class="highlighter-rouge">bounce</code>、<code class="highlighter-rouge">easeInOut</code>。<code class="highlighter-rouge">CALayer</code>动画暂不支持。</p>
+
+<h1 id="运动曲线">运动曲线</h1>
+<p>从初中开始，我们就开始接触正弦曲线、余弦曲线，现在真的排上用场了(😭后悔当初数学没学好)。我们可以通过对正弦余弦做一些处理，来得到动画的运动曲线。弹性动画稍微复杂一些，主要分为两部分，一是 <strong>波动(波形)</strong> 、二是 <strong>衰减</strong> ，将二者结合就能得到我们想要的动画运动曲线。</p>
+
+<h3 id="1-淡入淡出运动曲线">1. 淡入淡出运动曲线</h3>
+<p><strong>正弦曲线</strong>，<code class="highlighter-rouge">Y</code>坐标随着<code class="highlighter-rouge">X</code>坐标的变化而变化，新手乍一看，这跟动画根本没有半毛钱关系，我们还需要进行精加工处理，才能使用。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-05f96d224992fa2b.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/520" alt="正弦曲线" /></p>
+
+<p>不管是弹性动画还是线性动画，我们都有一个起点和终点，弹性动画不同的是它的值在某些时候会超越最终值，然后又回到最终值。总之，我们需要一个绝对起点值为0，绝对终点值为1，<code class="highlighter-rouge">progress</code>值范围在0~1。举个栗子🌰，我们要从<code class="highlighter-rouge">(100,100)</code>移动到<code class="highlighter-rouge">(200，200)</code>，x和y初始值和最终值相差100，减去初始值，这0~100就是<code class="highlighter-rouge">progress</code>的从0~1的过程。</p>
+
+<p>不管是正弦还是余弦，经过我们的翻转位移之后都能得到一个从0到1的曲线：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-932bcddfc86cbcd2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="正弦函数 0~1" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-38c4baf555b0d3b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="余弦函数 0~1" /></p>
+
+<p>这就是<code class="highlighter-rouge">easeInOut</code>动画的运动曲线图，在开始和结尾比较平缓，而中间波动较大，即淡入淡出的效果。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-87bc42c4c6c36e52.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="easeInOut
+" /></p>
+
+<h3 id="2-弹性运动曲线">2. 弹性运动曲线</h3>
+<p><strong>a. 衰减曲线</strong>弹性动画中从0~1的过程主要由指数衰减函数来控制，指数倍数越小，衰减速度越快，在动画参数中相当于 <strong>弹性阻尼</strong>。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-b21e3f89d1e68df9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="指数衰减函数" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-6264f2abd3705ad7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="指数衰减曲线" /></p>
+
+<p><strong>b. 余弦曲线</strong>在这里的我们使用余弦来作为弹性动画波动曲线，<code class="highlighter-rouge">x</code>倍数值越大，<strong>振动频率</strong> 越快。
+<img src="http://upload-images.jianshu.io/upload_images/1319710-92b55a2835db51a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/240" alt="余弦振幅函数" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-32a45f4280d12cb8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="余弦曲线" /></p>
+
+<p><strong>c. 衰减的余弦曲线</strong>衰减函数和余弦函数相乘，得到初步的弹性运动曲线。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-e5472a6284d81f95.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/240" alt="衰减的余弦函数" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-970a17b72672348a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="衰减的余弦曲线(浅色线为衰减曲线)" /></p>
+
+<p><strong>d. 0~1的衰减的余弦曲线</strong>，将曲线函数翻转(加负号)后上移1(+1)即可得到最终弹性曲线，曲线从0开始，<code class="highlighter-rouge">y</code>值随着<code class="highlighter-rouge">x</code>值变化波动后渐渐平稳归于1。<code class="highlighter-rouge">x</code>值递增越快，<strong>动画速度</strong>越快，整个动画所需时间越短。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-86c4baafb1891680.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="0~1的衰减的余弦函数" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-2d667b4c5eb53f3d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/640" alt="0~1的衰减的余弦曲线" /></p>
+
+<h1 id="通过运动曲线生成动画">通过运动曲线生成动画</h1>
+<h3 id="1-cadisplaylink">1. CADisplayLink</h3>
+<p><code class="highlighter-rouge">CADisplayLink</code>是一个能让我们以和屏幕刷新率相同的频率将动画显示到屏幕上的定时器。通过定时器我们利用当前动画<code class="highlighter-rouge">progress</code>得出运动曲线当前<code class="highlighter-rouge">Y</code>的值，即代码中的<code class="highlighter-rouge">timeLineY</code>。</p>
+
+<p>举个例子，移动<code class="highlighter-rouge">position</code>的动画，是用动画的<code class="highlighter-rouge">startPoint+(endPoint-startPoint)*timeLineY</code>=动画当前<code class="highlighter-rouge">progress</code>的的<code class="highlighter-rouge">position</code>，当按顺序将这些<code class="highlighter-rouge">position</code>显示出来就形成了我们需要的动画。</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// 新建一个displayLink
+self.displayLink = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateDisplayLink)];
+
+- (void)updateDisplayLink {
+    // 获取弹性动画曲线当前进度的曲线的Y坐标
+    float timeLineY = [self getSpringAnimation:animation springOffset:animation.progress];
+    // +进度
+    animation.progress+=animation.speed;
+    // 使用Y坐标值 算出View当前位置
+    CGRect tempFrame = animationView.frame;
+    NSValue *fromValue = animation.fromValue;
+    CGPoint startPoint = fromValue.CGPointValue;
+    NSValue *toValue = animation.toValue;
+    CGPoint endPoint = toValue.CGPointValue;
+      
+    tempFrame.origin.x = startPoint.x+(endPoint.x - startPoint.x)*timeLineY;
+    tempFrame.origin.y = startPoint.y+(endPoint.y - startPoint.y)*timeLineY;
+    animationView.frame = tempFrame;
+}
+</code></pre></div></div>
+
+<p>下面将会提到各种动画是如何获取当前<code class="highlighter-rouge">timeLineY</code>，提供了相应的曲线函数、代码和动画效果图。</p>
+
+<h3 id="2-非曲线动画">2. 非曲线动画</h3>
+<p>非曲线意思就是0~1运动轨迹是直线递增，整个动画会显得比较生硬。</p>
+
+<p>函数：y=x</p>
+
+<p>动画效果：
+<img src="http://upload-images.jianshu.io/upload_images/1319710-d5a452b8df816080.gif?imageMogr2/auto-orient/strip" alt="line_position.gif" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-7f1cc59b4a09e323.gif?imageMogr2/auto-orient/strip" alt="line_scale.gif" /></p>
+
+<h3 id="3-淡入淡出动画">3. 淡入淡出动画</h3>
+<p>EaseInOut曲线在动画在起点和终点的位置递增比较慢，动画开启和结束的地方比较平滑。</p>
+
+<p>曲线函数：
+<img src="http://upload-images.jianshu.io/upload_images/1319710-38c4baf555b0d3b3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/240" alt="余弦函数 0~1" />
+转换成OC代码：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (CGFloat)getEaseInOutAnimation:(FDSpringAnimation *)animation springOffset:(CGFloat)x {
+    result = MIN(-cos(M_PI*animation.progress)/2.0+0.5, 1.000);
+    return result;
+}
+</code></pre></div></div>
+<p>动画效果：</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-ab1b9e446018a073.gif?imageMogr2/auto-orient/strip" alt="easeInOut_position.gif" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-490bd047bffe438e.gif?imageMogr2/auto-orient/strip" alt="easeInOut_scale.gif" /></p>
+
+<h3 id="4-弹性动画">4. 弹性动画</h3>
+<p>弹性动画增加了2个参数，分别是阻尼:<code class="highlighter-rouge">damping</code>和波动频率:<code class="highlighter-rouge">frequency</code>。</p>
+
+<p>曲线函数：
+<img src="http://upload-images.jianshu.io/upload_images/1319710-86c4baafb1891680.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="0~1的衰减的余弦函数" />
+转换成OC代码：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>- (CGFloat)getSpringAnimation:(FDSpringAnimation *)animation springOffset:(CGFloat)x {
+    result = -pow(2, -animation.damping * x) * cos(animation.frequency*x)+1;
+}
+</code></pre></div></div>
+<p>动画效果：
+<img src="http://upload-images.jianshu.io/upload_images/1319710-84cf1273d105f391.gif?imageMogr2/auto-orient/strip" alt="bounce_position.gif" /></p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-0ccc79bf30a3f7af.gif?imageMogr2/auto-orient/strip" alt="bounce_scale.gif" /></p>
+
+<h1 id="拓展">拓展</h1>
+<p>上面的内容基本可以实现一个简单的弹性动画，<a href="https://github.com/xietao3/SpringAnimationDemo2">本文Demo</a>在此基础上增加了<code class="highlighter-rouge">同时多个动画运行</code>、<code class="highlighter-rouge">completionBlock</code>等功能，<code class="highlighter-rouge">正在运行的动画暂停</code>，<code class="highlighter-rouge">移除正在运行的动画</code>、<code class="highlighter-rouge">替换正在运行的动画</code>等功能待加入。</p>
+
+<p>本文所有曲线通过<code class="highlighter-rouge">Grapher</code>绘画。</p>
+
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-84e3e8dc286b96e7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/340" alt="Grapher" /></p>
+
+<h1 id="总结">总结</h1>
+<p>以前一直都是直接用<code class="highlighter-rouge">POP</code>或者<code class="highlighter-rouge">UIView</code>动画实现弹性动画的效果，对于原理实现不甚了解，但是一直保持着好奇心，终于是自己实现了一套方案(路子比较野😂)。</p>
+
+<p><strong>个人水平有限，欢迎发表建议。</strong></p>
+
+  </section>
+</article>
+
+<section class="read-more">
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">最近的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2017/06/bezierPath/" title="link to 包教包会-贝塞尔曲线的绘制原理与应用">包教包会-贝塞尔曲线的绘制原理与应用</a></h2>
+       <p class="excerpt">  说来话长，这一切都得从PhotoShop中的钢笔工具开始说起…声明：本文不含复杂数学公式，学渣放心阅读吧😂(我仿佛看到了学渣们留下了激动的泪水)背景贝塞尔曲线(Bézier curve)是应用于二维图形应用程序的数学曲线，贝塞尔曲线基于多个点构成。它的应用非常广泛，比如说PS中的钢笔工具所绘画的曲线就是贝塞尔曲线，绘制动画的运动轨迹等等，而最近一次想用到贝塞尔曲线是想做一个 路径动画 。简介在iOS开发中一般通过UIBezierPath来实现贝塞尔曲线的绘制，平时一般使用绘制二阶和三阶...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2017-06-22 22:03:11 +0800" class="post-list__meta--date date">2017-06-22</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2017/06/bezierPath/>继续阅读</a></div>
+   </div>
+   
+   
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2017/05/avoidCrash/" title="link to iOS - 被赶尽杀绝的Crash">iOS - 被赶尽杀绝的Crash</a></h2>
+       <p class="excerpt">  Crash曾经是折磨我们的梦魇，程序员的头顶的一把铡刀，你永远不知道它什么时候降下来…背景现在市面上Crash收集做得好的平台已经很多了，比如说听云、Bugly等，听云的功能确实强大、Crash的崩溃轨迹是其他平台上没有看到的，但是其价格有点惊人，而Bugly只记录页面轨迹，但是Bugly是免费的。不管是听云还是Bugly，他们的功能其实都是很好实现的，下面我会一一介绍。收集Crash在AppDelegate加入收集Crash的方法，具体监听Crash代码新建一个类目或者建一个单例都可...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2017-05-05 15:10:24 +0800" class="post-list__meta--date date">2017-05-05</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2017/05/avoidCrash/>继续阅读</a></div>
+   </div>
+   
+</section>
+
+<section class="post-comments">
+   
+    <div id="gitalk-container"></div>
+    <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: 'a7e3bcc8c313f6fcf2cf',
+        clientSecret: '1d7f990ff0250384dea6b037ce7d6e455d84d472',
+        repo: 'xietao3.github.io',
+        owner: 'xietao3',
+        admin: ['xietao3'],
+        id: 'BlogComment',
+        distractionFreeMode: true
+      });
+      gitalk.render('gitalk-container');
+
+    </script>
+
+  
+
+
+
+  
+  
+  
+</section>
+
+
+            <section class="footer">
+    <footer>
+    	<span class="footer__copyright">本站点采用<a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享 署名-非商业性使用-相同方式共享 4.0 国际 许可协议</a></span>
+        <span class="footer__copyright">本站由 <a href="http://xietao3.com/about">xietao3</a> 
+        创建，采用 <a href="https://github.com/onevcat/vno-jekyll">Vno - Jekyll</a> 作为主题，您可以在 GitHub 找到<a href="https://github.com/onevcat/OneV-s-Den">本站源码</a> - &copy; 2016</span>
+    </footer>
+</section>
+
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<script type="text/javascript" src="/js/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+<script type="text/javascript" src="/js/main.js"></script>
+
+
+
+    
+  </body>
+
+</html>

@@ -8,17 +8,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="baidu-site-verification" content="vuqzu4486i" />
   <meta name="baidu-site-verification" content="yR54QJzaFG" />
-  <title>学习Markdown</title>
-  <meta name="description" content="  这个世界太浮夸了，做技术的攀比也这么严重，还是要想想自己想要的是什么，再出发。">
+  <title>算法-选择排序</title>
+  <meta name="description" content="  这几乎是最简单的排序方法…">
   <meta name="author" content="xie tao">
 
 <!--   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="学习Markdown">
-  <meta name="twitter:description" content="  这个世界太浮夸了，做技术的攀比也这么严重，还是要想想自己想要的是什么，再出发。"> -->
+  <meta name="twitter:title" content="算法-选择排序">
+  <meta name="twitter:description" content="  这几乎是最简单的排序方法…"> -->
   
 <!--   <meta property="og:type" content="article">
-  <meta property="og:title" content="学习Markdown">
-  <meta property="og:description" content="  这个世界太浮夸了，做技术的攀比也这么严重，还是要想想自己想要的是什么，再出发。"> -->
+  <meta property="og:title" content="算法-选择排序">
+  <meta property="og:description" content="  这几乎是最简单的排序方法…"> -->
   
   <link rel="icon" type="image/png" href="/assets/images/favicon.ico" />
   <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/png">
@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="/css/main.css">
   <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="canonical" href="http://localhost:4000/2016/09/study-markdown/">
+  <link rel="canonical" href="http://localhost:4000/2016/11/pickSort/">
   <link rel="alternate" type="application/rss+xml" title="wangquanzhen" href="http://localhost:4000/feed.xml">
   <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
 
@@ -151,119 +151,78 @@ var _hmt = _hmt || [];
             <article class="post-container post-container--single" itemscope itemtype="http://schema.org/BlogPosting">
   <header class="post-header">
     <div class="post-meta">
-      <time datetime="2016-09-30 17:31:24 +0800" itemprop="datePublished" class="post-meta__date date">2016-09-30</time> &#8226; <span class="post-meta__tags tags"></span>
+      <time datetime="2016-11-15 11:01:24 +0800" itemprop="datePublished" class="post-meta__date date">2016-11-15</time> &#8226; <span class="post-meta__tags tags"></span>
     </div>
-    <h1 class="post-title">学习Markdown</h1>
+    <h1 class="post-title">算法-选择排序</h1>
   </header>
 
   <section class="post">
     <blockquote>
-  <p>这个世界太浮夸了，做技术的攀比也这么严重，还是要想想自己想要的是什么，再出发。</p>
+  <p>这几乎是最简单的排序方法…</p>
 </blockquote>
 
-<h1 id="前言">前言</h1>
-<ul>
-  <li>这个是本人练手用滴，勿喷。</li>
-</ul>
+<h2 id="核心思想">核心思想</h2>
+<p>选择排序的思想其实和冒泡排序有点类似，都是在一次排序后把最小的元素放到最前面，或者将最大值放在最后面。但是过程不同，冒泡排序是通过相邻的比较和交换。而选择排序是通过对整体的选择，每一趟从前往后查找出无序区最小值，将最小值交换至无序区最前面的位置。</p>
+<h2 id="示例">示例</h2>
+<p>第一轮过程: 初始化一个minIndex=0，i=0~9，依次将arr[i]与arr[minIndex]进行对比，如果arr[minIndex]的值较小则无操作，如果arr[i]的值较小，则将minIndex=i,意思是目前最小值的位置下标为i，直至这轮结束，minIndex的值则是该组数据无序区最小值的下标，将最小值交换到无序区最前面的位置，此时n=0的位置有序。</p>
 
-<h1 id="1代码块">1、代码块</h1>
+<p><img src="http://upload-images.jianshu.io/upload_images/1319710-786efb044bda1aa7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="选择排序-第一轮" />
+第二轮过程 ：i=1~9 查找最小值，对比方式与第一轮一样，找出最小值下标，将最小值交换至n=1的位置，第三轮i=2~9,最小值交换至n=2的位置。</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>NSSting *str = [[NSString alloc] init];
+<p>整个循环过程：</p>
+<pre>
+原始长度10
+100	5	3	11	33	6	8	7	1	3	
+第1轮
+1	5	3	11	33	6	8	7	100	3	
+第2轮
+1	3	5	11	33	6	8	7	100	3	
+第3轮
+1	3	3	11	33	6	8	7	100	5	
+第4轮
+1	3	3	5	33	6	8	7	100	11	
+第5轮
+1	3	3	5	6	33	8	7	100	11	
+第6轮
+1	3	3	5	6	7	8	33	100	11	
+第7轮
+1	3	3	5	6	7	8	33	100	11	
+第8轮
+1	3	3	5	6	7	8	11	100	33	
+第9轮
+1	3	3	5	6	7	8	11	33	100
+</pre>
 
-str = @"123";
+<h2 id="时间复杂度">时间复杂度</h2>
+<p>选择排序同样需要两轮循环才能完成排序。所以时间复杂度为O ( n^2)。</p>
 
-NSLog(@"123")；
-</code></pre></div></div>
-
-<ul>
-  <li>Use the <code class="highlighter-rouge">printf()</code> function.</li>
-  <li><code class="highlighter-rouge">There is a literal backtick (`) here.</code></li>
-  <li>Please don’t use any <code class="highlighter-rouge">&lt;blink&gt;</code> tags.</li>
-  <li><code class="highlighter-rouge">—</code> is the decimal-encoded equivalent of <code class="highlighter-rouge">—</code>.</li>
-</ul>
-
-<h1 id="2列表">2、列表</h1>
-<blockquote>
-  <p>This is the first level of quoting.</p>
-
-  <blockquote>
-    <p>This is nested blockquote.</p>
-  </blockquote>
-
-  <p>Back to the first level.</p>
-  <ol>
-    <li>Bird</li>
-    <li>McHale</li>
-    <li>Parish</li>
-  </ol>
-
-  <ul>
-    <li>Red</li>
-    <li>Green</li>
-    <li>Blue</li>
-  </ul>
-</blockquote>
-
-<ul>
-  <li>Bird</li>
-  <li>
-    <p>Magic</p>
-  </li>
-  <li>A list item with a blockquote
-    <blockquote>
-      <p>This is a blockquote
-inside a list item.</p>
-    </blockquote>
-  </li>
-</ul>
-
-<hr />
-<h1 id="3链接">3、链接</h1>
-<p><a href="http://blog.csdn.net/xietao3">this is a link</a>
-<a href="http://example.com/">http://example.com/</a></p>
-<hr />
-<h1 id="4强调">4、强调</h1>
-<p><em>single asterisks</em></p>
-
-<p><em>single underscores</em></p>
-
-<p><strong>double asterisks</strong></p>
-
-<p><strong>double underscores</strong></p>
-
-<p>un<em>frigging</em>believable</p>
-
-<p>*this text is surrounded by literal asterisks*</p>
-
-<h1 id="5图片">5、图片</h1>
-<p><img src="http://dd.png" alt="invalid pic" />
-<img src="http://upload-images.jianshu.io/upload_images/1319710-083adc744ffcabb1.JPG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="valid pic" /></p>
-
-<h1 id="6表格">6、表格</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>item1</th>
-      <th>item2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>11</td>
-      <td>22</td>
-    </tr>
-  </tbody>
-</table>
-
-<h1 id="总结">总结</h1>
-<ul>
-  <li>效果非常棒👍,简约大方。</li>
-</ul>
+<h2 id="c语言代码">C语言代码</h2>
+<pre><code>#pragma mark - 选择排序
+void pickSort(int arr[] ,int len) {
+    printf("原始长度%d\n",len);
+    printfArr(arr, len);
+    for (int i = 0; i &lt; len-1; i++) {
+        printf("第%d轮\n",i+1);
+        int minLocation = i;
+        for (int j = i; j &lt; len-1; j++) {
+            int preNum = arr[minLocation];
+            int nexNum = arr[j+1];
+            
+            if (preNum&gt;nexNum) {
+                minLocation = j+1;
+            }
+        }
+        if (minLocation != i) {
+            int temp = arr[i];
+            arr[i] = arr[minLocation];
+            arr[minLocation] = temp;
+        }
+        printfArr(arr, len);
+    }
+}
+</code></pre>
+<h2 id="结语">结语</h2>
+<p>这个比冒泡简单，你觉得呢？</p>
 
   </section>
 </article>
@@ -273,12 +232,20 @@ inside a list item.</p>
    
    <div class="read-more-item">
        <span class="read-more-item-dim">最近的文章</span>
-       <h2 class="post-list__post-title post-title"><a href="/2016/10/setup-blog/" title="link to Jekyll + Github Pages构建个人技术博客">Jekyll + Github Pages构建个人技术博客</a></h2>
-       <p class="excerpt">  写技术博客可以积累并且巩固所学的知识，温故知新，还能传播知识，帮助他人解决问题。前言搭建专属于自己的博客，是每一个码农都会想要去实现的，以前自己也曾想要搭建，但是总有无从下手的感觉，随着知识阅历的提升，知道了一些搭建的方式，时机成熟，买下了梦寐已久的域名，便开始动手搭建。参考  这里是官方介绍  如何快速给自己构建一个温馨的”家”——用Jekyll搭建静态博客  喵神的Vno Jekyll安装Jekyll//打开命令行 使用gem安装Jekyllgem install jekyll启动...&hellip;</p>
-       <div class="post-list__meta"><time datetime="2016-10-27 17:31:24 +0800" class="post-list__meta--date date">2016-10-27</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2016/10/setup-blog/>继续阅读</a></div>
+       <h2 class="post-list__post-title post-title"><a href="/2016/11/insertSort/" title="link to 算法-插入排序">算法-插入排序</a></h2>
+       <p class="excerpt">  生活总是充满了惊喜，无论是惊还是喜。核心思想有一个已经有序的数据序列，要求在这个已经排好的数据序列中插入一个数，但要求插入后此数据序列仍然有序，这个时候就要用到一种新的排序方法——插入排序法,插入排序的基本操作就是将一个数据插入到已经排好序的有序数据中，从而得到一个新的、个数加一的有序数据，算法适用于少量数据的排序。示例对于长度为n的数组，全部完成排序需要经过n-1轮的查找,首先我们从第二个数开始，向前比较，如果比前面的数小，则继续向前对比，直至遇见大于前置位数字时，或者到了数组的最前...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-11-16 10:00:24 +0800" class="post-list__meta--date date">2016-11-16</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2016/11/insertSort/>继续阅读</a></div>
    </div>
    
    
+   
+   
+   <div class="read-more-item">
+       <span class="read-more-item-dim">更早的文章</span>
+       <h2 class="post-list__post-title post-title"><a href="/2016/11/maopaoSort/" title="link to 算法-冒泡排序">算法-冒泡排序</a></h2>
+       <p class="excerpt">  貌似是程序员基础，我一个高级开发竟然只会冒泡（羞耻ing…）前言之前买了剑指offer,一直搁那里没怎么看，现在挑灯夜读挤出点时间学习下，在这之前还是得先把基础给打牢，这里先介绍算法入门-冒泡排序。核心思想冒泡排序的核心思想就是通过与相邻元素的比较和交换，把小的数交换到最前面。因为这个过程类似于水泡向上升一样，因此被命名为冒泡排序。示例  第一轮过程: i=0~9；依次进行arr[i]与arr[i+1]对比；arr[i]小则不交换，arr[i+1]小则与arr[i]交换位置，由于100...&hellip;</p>
+       <div class="post-list__meta"><time datetime="2016-11-15 10:28:24 +0800" class="post-list__meta--date date">2016-11-15</time> &#8226; <span class="post-list__meta--tags tags"></span><a class="btn-border-small" href=/2016/11/maopaoSort/>继续阅读</a></div>
+   </div>
    
 </section>
 
