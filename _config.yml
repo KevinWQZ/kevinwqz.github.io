@@ -1,5 +1,5 @@
 # Basic
-title: wangquanzhen
+title: 王权振
 subtitle: 学无止境，勤于总结
 # welcome_message: <a href="https://github.com/onevcat/vno-jekyll" target="_blank">Download the theme</a>
 description: 你好，我是王权振！欢迎来到我的个人主页.</br>90后码农，Aim to 代码创造者
@@ -23,7 +23,7 @@ kramdown:
 
 
 # supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
-cover_color: orange
+cover_color: slate
 
 # The blog button should not be removed.
 blog_button:
