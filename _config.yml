@@ -6,7 +6,7 @@ description: 你好，我是王权振！欢迎来到我的个人主页.</br>90�
 creator: <a href="http://wangquanzhen.com</a>
 
 url: "http://wangquanzhen.com"
-#enforce_ssl: "xietao3.com"
+#enforce_ssl: "wangquanzhen.com"
 
 permalink: /:year/:month/:title/
 
@@ -23,7 +23,7 @@ kramdown:
 
 
 # supported colors: blue, green, purple, red, orange or slate. If you need clear, leave it empty.
-cover_color: slate
+cover_color: 
 
 # The blog button should not be removed.
 blog_button:
@@ -44,13 +44,13 @@ paginate_path: "page/:num/"
 
 # Comment
 comment:
-    gitalk: xietao3
+#    gitalk: xietao3
     
 # Social
 social:
-    weibo: xietao3
-    github: xietao3
-    csdn: xietao3
+#    weibo: xietao3
+#    github: xietao3
+ #   csdn: xietao3
   
 
 
