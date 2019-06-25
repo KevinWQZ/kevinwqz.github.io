@@ -4,7 +4,7 @@
 */
 /*f39ca4 A2CCFF 选中色 浅红色 2个*/
 /*BF1827 2E2F41 普通色 大红色 6个*/
-/*7b0f19 FFFFFF 高亮色 深红色 7个*/
+/*7b0f19 999999 高亮色 深红色 7个*/
 /*92121e 2E2F41 table 大红色 2个*/
 @import url(animate.css);
 @import url(tomorrow.css);
@@ -74,7 +74,7 @@ a {
   text-decoration: none;
   color: #2E2F41; }
   a:hover {
-    color: #FFFFFF;
+    color: #999999;
     -o-transition: .5s;
     -ms-transition: .5s;
     -moz-transition: .5s;
@@ -224,7 +224,7 @@ td:last-child {
     .time a:hover,
     .author a:hover,
     .tags a:hover {
-      color: #FFFFFF; }
+      color: #999999; }
 
 .excerpt {
   margin: 0;
@@ -288,7 +288,7 @@ td:last-child {
     color: #a6a6a6;
     text-decoration: underline; }
     .footer__copyright a:hover {
-      color: #FFFFFF; }
+      color: #999999; }
 
 .avatar,
 .logo {
@@ -494,8 +494,8 @@ hr {
   color: #2E2F41;
   -webkit-font-smoothing: antialiased; }
   .btn:hover, .navigation__item a:hover {
-    color: #FFFFFF;
-    border-color: #FFFFFF; }
+    color: #999999;
+    border-color: #999999; }
 
 .btn-border-small {
   border: 1px solid #2E2F41;
@@ -628,7 +628,7 @@ i {
   .post-list__post-title a {
     color: #333333; }
     .post-list__post-title a:hover {
-      color: #FFFFFF; }
+      color: #999999; }
 
 .post-list__meta {
   display: block;
@@ -755,7 +755,7 @@ input[type="tel"] {
   width: 48%; }
 
 .read-more-item-dim {
-  color: #FFFFFF;
+  color: #999999;
   font-size: .8em; }
 
 @media all and (max-width: 1100px) {
